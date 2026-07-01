@@ -14,13 +14,25 @@
 
 <meta name="author" content="Antonio Pio & Federica">
 
+<meta name="theme-color" content="#E7387C">
+
+<meta name="robots" content="index,follow">
+
+<link rel="canonical" href="https://petitemood.it/">
+
 <meta property="og:title" content="Petite Mood">
 
 <meta property="og:description" content="La community italiana dedicata alle ragazze sotto i 160 cm.">
 
-<meta property="og:image" content="images/logo.jpg">
+<meta property="og:image" content="https://petitemood.it/images/logo.jpg">
 
 <meta property="og:type" content="website">
+
+<meta property="og:url" content="https://petitemood.it/">
+
+<meta property="og:locale" content="it_IT">
+
+<meta name="twitter:card" content="summary_large_image">
 
 <link rel="icon" href="images/logo.jpg">
 
@@ -30,7 +42,22 @@
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
-<link rel="stylesheet" href="css/style.css?v=2">
+<link rel="stylesheet" href="css/style.css?v=3">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "Petite Mood",
+  "url": "https://petitemood.it/",
+  "logo": "https://petitemood.it/images/logo.jpg",
+  "description": "La community italiana dedicata alle ragazze sotto i 160 cm.",
+  "sameAs": [
+    "https://instagram.com/petitemood.it",
+    "https://www.tiktok.com/@petitemood.it"
+  ]
+}
+</script>
 
 </head>
 
@@ -64,9 +91,9 @@
 
 </nav>
 
-<div class="menu-toggle" id="menu-toggle">
+<button class="menu-toggle" id="menu-toggle" type="button" aria-label="Apri o chiudi il menu" aria-expanded="false">
     ☰
-</div>
+</button>
 
 <a href="#questionario" class="header-btn">
 
@@ -323,7 +350,7 @@ TikTok
 
             <div class="stat-card">
 
-                <h3>0</h3>
+                <h3 data-stat="questionnaires">0</h3>
 
                 <p>Questionari compilati</p>
 
@@ -331,7 +358,7 @@ TikTok
 
             <div class="stat-card">
 
-                <h3>0</h3>
+                <h3 data-stat="members">0</h3>
 
                 <p>Petite Members</p>
 
@@ -453,13 +480,13 @@ TikTok
                 Prima di creare la nostra prima collezione vogliamo conoscere
                 davvero le esigenze delle ragazze sotto i 160 cm.
 
-                Bastano meno di 3 minuti e il tuo contributo sarà prezioso.
+                Bastano circa 4 minuti e il tuo contributo sarà prezioso.
 
             </p>
 
             <div class="questionnaire-benefits">
 
-                <div>✔️ Meno di 3 minuti</div>
+                <div>✔️ Circa 4 minuti</div>
 
                 <div>✔️ Gratuito</div>
 
@@ -555,17 +582,33 @@ TikTok
 
         </div>
 
-        <form>
+        <form id="newsletter-form" class="newsletter-form" novalidate>
 
             <input
+                id="newsletter-email"
+                name="email"
                 type="email"
+                autocomplete="email"
+                required
+                maxlength="254"
+                aria-label="Il tuo indirizzo email"
                 placeholder="Inserisci la tua email">
 
-            <button>
+            <button type="submit">
 
                 Iscriviti
 
             </button>
+
+            <label class="newsletter-consent">
+                <input type="checkbox" name="newsletter_privacy" required>
+                <span>
+                    Ho letto l'<a href="privacy.html" target="_blank">informativa privacy</a>
+                    e desidero ricevere le novità di Petite Mood.
+                </span>
+            </label>
+
+            <p class="newsletter-status" id="newsletter-status" role="status" aria-live="polite"></p>
 
         </form>
 
@@ -616,6 +659,12 @@ TikTok
 
         </div>
 
+        <p class="footer-legal">
+            <a href="privacy.html">Privacy</a>
+            <span aria-hidden="true">•</span>
+            <a href="questionario.html">Questionario</a>
+        </p>
+
         <hr>
 
         <p>
@@ -632,7 +681,9 @@ TikTok
 
 </footer>
 
-<script src="js/script.js?v=2"></script>
+<script src="js/config.js?v=1"></script>
+<script src="js/analytics.js?v=1"></script>
+<script src="js/script.js?v=3"></script>
 
 </body>
 
