@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Questionario Petite Mood | Raccontaci la tua esperienza</title>
+    <meta name="description" content="Partecipa alla ricerca di Petite Mood e aiutaci a creare capi pensati davvero per le ragazze petite.">
+    <meta name="robots" content="index,follow">
+    <meta name="theme-color" content="#e7387c">
+    <link rel="canonical" href="https://petitemood.it/questionario.html">
+    <link rel="icon" href="images/logo.jpg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/questionario.css?v=1">
+</head>
+<body>
+    <header class="survey-header">
+        <a class="survey-logo" href="index.html" aria-label="Torna alla homepage">
+            <img src="images/logo.jpg" alt="Petite Mood">
+        </a>
+        <a class="back-home" href="index.html">← Torna al sito</a>
+    </header>
+
+    <main>
+        <section class="survey-intro" aria-labelledby="survey-title">
+            <span class="eyebrow">LA TUA ESPERIENZA CONTA</span>
+            <h1 id="survey-title">Costruiamo insieme la moda petite che vorresti.</h1>
+            <p>
+                Non è un semplice modulo: è il punto di partenza della prima collezione
+                Petite Mood. Le risposte possono essere anonime e richiedono circa 4 minuti.
+            </p>
+            <div class="intro-points" aria-label="Informazioni sul questionario">
+                <span>✓ 4 minuti</span>
+                <span>✓ Risposte protette</span>
+                <span>✓ Email facoltativa</span>
+            </div>
+        </section>
+
+        <section class="survey-shell" aria-label="Questionario Petite Mood">
+            <div class="progress-wrap">
+                <div class="progress-copy">
+                    <span id="step-label">Passaggio 1 di 5</span>
+                    <span id="progress-percent">20%</span>
+                </div>
+                <div class="progress-track" aria-hidden="true">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
+            </div>
+
+            <form id="petite-survey" novalidate>
+                <input class="honeypot" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+                <fieldset class="form-step is-active" data-step="1">
+                    <legend>
+                        <span class="step-kicker">CONOSCIAMOCI</span>
+                        Parlaci un po' di te
+                    </legend>
+                    <p class="step-description">Ci aiuterà a progettare proporzioni e vestibilità più realistiche.</p>
+
+                    <div class="field-grid two-columns">
+                        <div class="field">
+                            <label for="height_cm">Quanto sei alta? <span aria-hidden="true">*</span></label>
+                            <div class="input-suffix">
+                                <input id="height_cm" name="height_cm" type="number" min="130" max="165" inputmode="numeric" required>
+                                <span>cm</span>
+                            </div>
+                            <small>Inserisci un valore tra 130 e 165 cm.</small>
+                        </div>
+
+                        <div class="field">
+                            <label for="age_range">Fascia d'età <span aria-hidden="true">*</span></label>
+                            <select id="age_range" name="age_range" required>
+                                <option value="">Seleziona</option>
+                                <option value="under_18">Meno di 18 anni</option>
+                                <option value="18_24">18–24 anni</option>
+                                <option value="25_34">25–34 anni</option>
+                                <option value="35_44">35–44 anni</option>
+                                <option value="45_54">45–54 anni</option>
+                                <option value="55_plus">55 anni o più</option>
+                            </select>
+                        </div>
+
+                        <div class="field">
+                            <label for="region">Regione in cui vivi</label>
+                            <select id="region" name="region">
+                                <option value="">Preferisco non indicarla</option>
+                                <option>Abruzzo</option><option>Basilicata</option><option>Calabria</option>
+                                <option>Campania</option><option>Emilia-Romagna</option><option>Friuli-Venezia Giulia</option>
+                                <option>Lazio</option><option>Liguria</option><option>Lombardia</option>
+                                <option>Marche</option><option>Molise</option><option>Piemonte</option>
+                                <option>Puglia</option><option>Sardegna</option><option>Sicilia</option>
+                                <option>Toscana</option><option>Trentino-Alto Adige</option><option>Umbria</option>
+                                <option>Valle d'Aosta</option><option>Veneto</option><option>Estero</option>
+                            </select>
+                        </div>
+
+                        <div class="field">
+                            <label for="body_proportion">Come descriveresti le tue proporzioni?</label>
+                            <select id="body_proportion" name="body_proportion">
+                                <option value="">Non saprei / preferisco non rispondere</option>
+                                <option value="balanced">Busto e gambe proporzionati</option>
+                                <option value="long_torso">Busto più lungo, gambe più corte</option>
+                                <option value="long_legs">Gambe più lunghe, busto più corto</option>
+                            </select>
+                        </div>
+
+                        <div class="field">
+                            <label for="top_size">Taglia che acquisti più spesso per i top</label>
+                            <select id="top_size" name="top_size">
+                                <option value="">Seleziona</option>
+                                <option>XXS</option><option>XS</option><option>S</option>
+                                <option>M</option><option>L</option><option>XL o più</option>
+                                <option>Varia molto</option>
+                            </select>
+                        </div>
+
+                        <div class="field">
+                            <label for="bottom_size">Taglia italiana più frequente per pantaloni e gonne</label>
+                            <select id="bottom_size" name="bottom_size">
+                                <option value="">Seleziona</option>
+                                <option>34</option><option>36</option><option>38</option><option>40</option>
+                                <option>42</option><option>44</option><option>46</option><option>48 o più</option>
+                                <option>Varia molto</option>
+                            </select>
+                        </div>
+                    </div>
+                </fieldset>
+
+                <fieldset class="form-step" data-step="2" hidden>
+                    <legend>
+                        <span class="step-kicker">IL PROBLEMA</span>
+                        Cosa non funziona nei capi di oggi?
+                    </legend>
+                    <p class="step-description">Qui puoi selezionare più di una risposta.</p>
+
+                    <div class="field">
+                        <span class="field-label">Quanto è difficile trovare capi che vestano bene senza modifiche? <span aria-hidden="true">*</span></span>
+                        <div class="rating-row" data-required-group="shopping_difficulty">
+                            <label><input type="radio" name="shopping_difficulty" value="1" required><span>1<small>Facile</small></span></label>
+                            <label><input type="radio" name="shopping_difficulty" value="2"><span>2</span></label>
+                            <label><input type="radio" name="shopping_difficulty" value="3"><span>3</span></label>
+                            <label><input type="radio" name="shopping_difficulty" value="4"><span>4</span></label>
+                            <label><input type="radio" name="shopping_difficulty" value="5"><span>5<small>Difficile</small></span></label>
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <span class="field-label">Quali problemi incontri più spesso? <span aria-hidden="true">*</span></span>
+                        <div class="choice-grid" data-required-group="problem_areas">
+                            <label><input type="checkbox" name="problem_areas" value="pants_too_long"><span>Pantaloni troppo lunghi</span></label>
+                            <label><input type="checkbox" name="problem_areas" value="sleeves_too_long"><span>Maniche troppo lunghe</span></label>
+                            <label><input type="checkbox" name="problem_areas" value="waist_gap"><span>Vita larga rispetto ai fianchi</span></label>
+                            <label><input type="checkbox" name="problem_areas" value="knee_wrong_position"><span>Ginocchio nel punto sbagliato</span></label>
+                            <label><input type="checkbox" name="problem_areas" value="waistline_too_low"><span>Punto vita troppo basso</span></label>
+                            <label><input type="checkbox" name="problem_areas" value="shoulders_too_wide"><span>Spalle troppo larghe</span></label>
+                            <label><input type="checkbox" name="problem_areas" value="garment_overwhelms"><span>Il capo “mi sovrasta”</span></label>
+                            <label><input type="checkbox" name="problem_areas" value="other"><span>Altro</span></label>
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <span class="field-label">Quali capi sono più difficili da acquistare? <span aria-hidden="true">*</span></span>
+                        <div class="choice-grid compact" data-required-group="difficult_products">
+                            <label><input type="checkbox" name="difficult_products" value="jeans"><span>Jeans</span></label>
+                            <label><input type="checkbox" name="difficult_products" value="trousers"><span>Pantaloni</span></label>
+                            <label><input type="checkbox" name="difficult_products" value="dresses"><span>Abiti</span></label>
+                            <label><input type="checkbox" name="difficult_products" value="jumpsuits"><span>Tute intere</span></label>
+                            <label><input type="checkbox" name="difficult_products" value="coats"><span>Giacche e cappotti</span></label>
+                            <label><input type="checkbox" name="difficult_products" value="skirts"><span>Gonne</span></label>
+                        </div>
+                    </div>
+
+                    <div class="field-grid two-columns">
+                        <div class="field">
+                            <label for="alterations_frequency">Quanto spesso fai accorciare o modificare i capi?</label>
+                            <select id="alterations_frequency" name="alterations_frequency">
+                                <option value="">Seleziona</option>
+                                <option value="never">Mai</option>
+                                <option value="rarely">Raramente</option>
+                                <option value="sometimes">Qualche volta</option>
+                                <option value="often">Spesso</option>
+                                <option value="almost_always">Quasi sempre</option>
+                            </select>
+                        </div>
+                        <div class="field">
+                            <label for="alterations_cost">Quanto spendi mediamente per modificare un capo?</label>
+                            <select id="alterations_cost" name="alterations_cost">
+                                <option value="">Seleziona</option>
+                                <option value="0">Nulla</option>
+                                <option value="under_10">Meno di 10 €</option>
+                                <option value="10_20">10–20 €</option>
+                                <option value="21_35">21–35 €</option>
+                                <option value="over_35">Più di 35 €</option>
+                            </select>
+                        </div>
+                    </div>
+                </fieldset>
+
+                <fieldset class="form-step" data-step="3" hidden>
+                    <legend>
+                        <span class="step-kicker">LA COLLEZIONE</span>
+                        Cosa vorresti da Petite Mood?
+                    </legend>
+                    <p class="step-description">Le tue preferenze guideranno i primi prototipi.</p>
+
+                    <div class="field">
+                        <span class="field-label">Quale vestibilità preferisci per i pantaloni?</span>
+                        <div class="choice-grid compact">
+                            <label><input type="checkbox" name="preferred_fits" value="skinny"><span>Skinny</span></label>
+                            <label><input type="checkbox" name="preferred_fits" value="straight"><span>Straight</span></label>
+                            <label><input type="checkbox" name="preferred_fits" value="wide_leg"><span>Wide leg</span></label>
+                            <label><input type="checkbox" name="preferred_fits" value="flare"><span>Flare</span></label>
+                            <label><input type="checkbox" name="preferred_fits" value="tailored"><span>Sartoriale</span></label>
+                            <label><input type="checkbox" name="preferred_fits" value="cargo"><span>Cargo</span></label>
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <span class="field-label">Quali prodotti vorresti vedere per primi? <span aria-hidden="true">*</span></span>
+                        <div class="choice-grid" data-required-group="desired_products">
+                            <label><input type="checkbox" name="desired_products" value="perfect_jeans"><span>Il jeans perfetto</span></label>
+                            <label><input type="checkbox" name="desired_products" value="elegant_trousers"><span>Pantalone elegante</span></label>
+                            <label><input type="checkbox" name="desired_products" value="everyday_dress"><span>Abito quotidiano</span></label>
+                            <label><input type="checkbox" name="desired_products" value="jumpsuit"><span>Tuta intera</span></label>
+                            <label><input type="checkbox" name="desired_products" value="blazer"><span>Blazer proporzionato</span></label>
+                            <label><input type="checkbox" name="desired_products" value="coat"><span>Cappotto petite</span></label>
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <span class="field-label">Quale stile senti più tuo?</span>
+                        <div class="choice-grid compact">
+                            <label><input type="checkbox" name="style_preferences" value="casual"><span>Casual</span></label>
+                            <label><input type="checkbox" name="style_preferences" value="minimal"><span>Minimal</span></label>
+                            <label><input type="checkbox" name="style_preferences" value="romantic"><span>Romantico</span></label>
+                            <label><input type="checkbox" name="style_preferences" value="elegant"><span>Elegante</span></label>
+                            <label><input type="checkbox" name="style_preferences" value="streetwear"><span>Streetwear</span></label>
+                            <label><input type="checkbox" name="style_preferences" value="versatile"><span>Versatile</span></label>
+                        </div>
+                    </div>
+
+                    <div class="field-grid two-columns">
+                        <div class="field">
+                            <label for="preferred_colors">Colori che vorresti nella prima collezione</label>
+                            <input id="preferred_colors" name="preferred_colors" type="text" maxlength="150" placeholder="Es. nero, panna, rosa, denim scuro">
+                        </div>
+                        <div class="field">
+                            <label for="budget_trousers">Quanto spenderesti per un pantalone che veste davvero bene?</label>
+                            <select id="budget_trousers" name="budget_trousers">
+                                <option value="">Seleziona</option>
+                                <option value="under_40">Meno di 40 €</option>
+                                <option value="40_59">40–59 €</option>
+                                <option value="60_79">60–79 €</option>
+                                <option value="80_109">80–109 €</option>
+                                <option value="110_plus">110 € o più</option>
+                            </select>
+                        </div>
+                    </div>
+                </fieldset>
+
+                <fieldset class="form-step" data-step="4" hidden>
+                    <legend>
+                        <span class="step-kicker">IL TUO PARERE</span>
+                        Aiutaci a prendere le decisioni giuste
+                    </legend>
+                    <p class="step-description">Non esistono risposte giuste o sbagliate.</p>
+
+                    <div class="field">
+                        <span class="field-label">Quanto saresti interessata ad acquistare un capo Petite Mood? <span aria-hidden="true">*</span></span>
+                        <div class="rating-row" data-required-group="purchase_intent">
+                            <label><input type="radio" name="purchase_intent" value="1" required><span>1<small>Poco</small></span></label>
+                            <label><input type="radio" name="purchase_intent" value="2"><span>2</span></label>
+                            <label><input type="radio" name="purchase_intent" value="3"><span>3</span></label>
+                            <label><input type="radio" name="purchase_intent" value="4"><span>4</span></label>
+                            <label><input type="radio" name="purchase_intent" value="5"><span>5<small>Molto</small></span></label>
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <span class="field-label">Dove preferisci seguire Petite Mood?</span>
+                        <div class="choice-grid compact">
+                            <label><input type="checkbox" name="discovery_channels" value="instagram"><span>Instagram</span></label>
+                            <label><input type="checkbox" name="discovery_channels" value="tiktok"><span>TikTok</span></label>
+                            <label><input type="checkbox" name="discovery_channels" value="newsletter"><span>Email</span></label>
+                            <label><input type="checkbox" name="discovery_channels" value="website"><span>Sito web</span></label>
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <label for="feedback">Se potessi chiedere una sola cosa a un brand petite, quale sarebbe?</label>
+                        <textarea id="feedback" name="feedback" rows="5" maxlength="1000" placeholder="Raccontacelo liberamente..."></textarea>
+                        <small class="character-count"><span id="feedback-count">0</span>/1000</small>
+                    </div>
+                </fieldset>
+
+                <fieldset class="form-step" data-step="5" hidden>
+                    <legend>
+                        <span class="step-kicker">ULTIMO PASSAGGIO</span>
+                        Vuoi entrare nella community?
+                    </legend>
+                    <p class="step-description">
+                        L'email è facoltativa. Puoi inviare il questionario in modo anonimo
+                        oppure diventare Petite Member e ricevere gli aggiornamenti.
+                    </p>
+
+                    <div class="field-grid two-columns">
+                        <div class="field">
+                            <label for="first_name">Nome</label>
+                            <input id="first_name" name="first_name" type="text" maxlength="80" autocomplete="given-name" placeholder="Facoltativo">
+                        </div>
+                        <div class="field">
+                            <label for="email">Email</label>
+                            <input id="email" name="email" type="email" maxlength="254" autocomplete="email" placeholder="Facoltativa">
+                        </div>
+                    </div>
+
+                    <div class="consent-list">
+                        <label class="consent-card">
+                            <input type="checkbox" name="join_members" value="true">
+                            <span>
+                                <strong>Diventa Petite Member</strong>
+                                Entra nella community e partecipa alle prossime decisioni.
+                            </span>
+                        </label>
+                        <label class="consent-card">
+                            <input type="checkbox" name="newsletter_consent" value="true">
+                            <span>
+                                <strong>Ricevi le novità via email</strong>
+                                Anteprime, sondaggi e lancio della prima collezione. Puoi annullare in ogni momento.
+                            </span>
+                        </label>
+                        <label class="consent-card required-consent">
+                            <input type="checkbox" name="privacy_consent" value="true" required>
+                            <span>
+                                Ho letto l'<a href="privacy.html" target="_blank">informativa privacy</a>
+                                e acconsento al trattamento dei dati per questa ricerca. <strong>*</strong>
+                            </span>
+                        </label>
+                    </div>
+
+                    <p class="minor-note">
+                        Se hai meno di 18 anni, chiedi l'aiuto di un genitore o tutore prima di inserire nome o email.
+                    </p>
+                </fieldset>
+
+                <div class="form-alert" id="form-alert" role="alert" aria-live="polite" hidden></div>
+
+                <div class="form-actions">
+                    <button type="button" class="btn-ghost" id="previous-step" hidden>Indietro</button>
+                    <button type="button" class="btn-primary" id="next-step">Continua</button>
+                    <button type="submit" class="btn-primary" id="submit-survey" hidden>Invia il questionario</button>
+                </div>
+            </form>
+
+            <div class="success-panel" id="success-panel" hidden tabindex="-1">
+                <div class="success-icon">✓</div>
+                <span class="step-kicker">GRAZIE DI CUORE</span>
+                <h2>La tua voce è entrata in Petite Mood.</h2>
+                <p>
+                    Useremo queste risposte per progettare capi più proporzionati,
+                    utili e vicini alle esigenze reali della community.
+                </p>
+                <div class="success-actions">
+                    <a class="btn-primary" href="index.html">Torna alla homepage</a>
+                    <a class="btn-social" href="https://instagram.com/petitemood.it" target="_blank" rel="noopener noreferrer">Seguici su Instagram</a>
+                </div>
+            </div>
+        </section>
+
+        <p class="survey-help">
+            Hai bisogno di aiuto? Scrivici a <a href="mailto:info@petitemood.it">info@petitemood.it</a>
+        </p>
+    </main>
+
+    <footer class="survey-footer">
+        <span>© 2026 Petite Mood</span>
+        <a href="privacy.html">Privacy</a>
+        <a href="https://www.tiktok.com/@petitemood.it" target="_blank" rel="noopener noreferrer">TikTok</a>
+    </footer>
+
+    <script src="js/config.js?v=1"></script>
+    <script src="js/analytics.js?v=1"></script>
+    <script src="js/questionario.js?v=1"></script>
+</body>
+</html>
