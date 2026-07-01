@@ -1,256 +1,816 @@
-/* PETITE MOOD - QUESTIONARIO 1.0 */
+:root {
+    --primary: #e7387c;
+    --primary-dark: #c81f63;
+    --primary-soft: #fff1f6;
+    --ink: #2d2630;
+    --muted: #6e6670;
+    --white: #ffffff;
+    --line: rgba(231, 56, 124, .14);
+    --danger: #a9234f;
+    --success: #16845b;
+    --shadow: 0 24px 70px rgba(104, 37, 66, .12);
+    --radius: 28px;
+}
 
-document.addEventListener("DOMContentLoaded", () => {
-    const form = document.getElementById("petite-survey");
-    if (!form) return;
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
 
-    const steps = Array.from(form.querySelectorAll(".form-step"));
-    const previousButton = document.getElementById("previous-step");
-    const nextButton = document.getElementById("next-step");
-    const submitButton = document.getElementById("submit-survey");
-    const progressBar = document.getElementById("progress-bar");
-    const progressPercent = document.getElementById("progress-percent");
-    const stepLabel = document.getElementById("step-label");
-    const formAlert = document.getElementById("form-alert");
-    const successPanel = document.getElementById("success-panel");
-    const feedback = document.getElementById("feedback");
-    const feedbackCount = document.getElementById("feedback-count");
-    const storageKey = "petiteMoodSurveyDraftV1";
-    let currentStep = 0;
+html {
+    scroll-behavior: smooth;
+}
 
-    const config = window.PETITE_MOOD_CONFIG || {};
-    const cleanUrl = String(config.supabaseUrl || "").replace(/\/+$/, "");
-    const apiKey = String(config.supabasePublishableKey || "");
-    const isConfigured = cleanUrl.startsWith("https://") && apiKey.length > 20;
+body {
+    min-width: 320px;
+    color: var(--ink);
+    background:
+        radial-gradient(circle at 8% 12%, rgba(231, 56, 124, .12), transparent 26rem),
+        radial-gradient(circle at 95% 44%, rgba(248, 187, 208, .22), transparent 29rem),
+        #fffafd;
+    font-family: "Poppins", sans-serif;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+}
 
-    const showAlert = (message, type = "error") => {
-        formAlert.textContent = message;
-        formAlert.classList.toggle("is-info", type === "info");
-        formAlert.hidden = false;
-        formAlert.scrollIntoView({ behavior: "smooth", block: "nearest" });
-    };
+a {
+    color: var(--primary-dark);
+    text-underline-offset: 3px;
+}
 
-    const hideAlert = () => {
-        formAlert.hidden = true;
-        formAlert.textContent = "";
-        formAlert.classList.remove("is-info");
-    };
+button,
+input,
+select,
+textarea {
+    font: inherit;
+}
 
-    const checkedValues = (name) =>
-        Array.from(form.querySelectorAll(`input[name="${name}"]:checked`)).map((input) => input.value);
+button,
+label {
+    -webkit-tap-highlight-color: transparent;
+}
 
-    const getValue = (name) => {
-        const field = form.elements.namedItem(name);
-        if (!field) return "";
-        if (field instanceof RadioNodeList) return field.value;
-        return String(field.value || "").trim();
-    };
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+    outline: 3px solid rgba(231, 56, 124, .25);
+    outline-offset: 3px;
+}
 
-    const collectPayload = () => ({
-        height_cm: Number(getValue("height_cm")),
-        age_range: getValue("age_range"),
-        region: getValue("region") || null,
-        body_proportion: getValue("body_proportion") || null,
-        top_size: getValue("top_size") || null,
-        bottom_size: getValue("bottom_size") || null,
-        shopping_difficulty: Number(getValue("shopping_difficulty")),
-        problem_areas: checkedValues("problem_areas"),
-        difficult_products: checkedValues("difficult_products"),
-        alterations_frequency: getValue("alterations_frequency") || null,
-        alterations_cost: getValue("alterations_cost") || null,
-        preferred_fits: checkedValues("preferred_fits"),
-        desired_products: checkedValues("desired_products"),
-        style_preferences: checkedValues("style_preferences"),
-        preferred_colors: getValue("preferred_colors") || null,
-        budget_trousers: getValue("budget_trousers") || null,
-        purchase_intent: Number(getValue("purchase_intent")),
-        discovery_channels: checkedValues("discovery_channels"),
-        feedback: getValue("feedback") || null,
-        first_name: getValue("first_name") || null,
-        email: getValue("email").toLowerCase() || null,
-        join_members: checkedValues("join_members").includes("true"),
-        newsletter_consent: checkedValues("newsletter_consent").includes("true"),
-        privacy_consent: checkedValues("privacy_consent").includes("true"),
-        source: "website_questionnaire",
-    });
+.survey-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: min(1120px, 91%);
+    margin: 0 auto;
+    padding: 22px 0;
+}
 
-    const saveDraft = () => {
-        try {
-            const draft = {};
-            new FormData(form).forEach((value, key) => {
-                if (key === "website" || key === "privacy_consent") return;
-                if (draft[key]) {
-                    draft[key] = Array.isArray(draft[key]) ? [...draft[key], value] : [draft[key], value];
-                } else {
-                    draft[key] = value;
-                }
-            });
-            sessionStorage.setItem(storageKey, JSON.stringify(draft));
-        } catch (_) {
-            /* Il questionario funziona anche quando lo storage è disattivato. */
-        }
-    };
+.survey-logo img {
+    display: block;
+    width: 82px;
+    height: 64px;
+    border-radius: 14px;
+    object-fit: contain;
+}
 
-    const restoreDraft = () => {
-        try {
-            const draft = JSON.parse(sessionStorage.getItem(storageKey) || "null");
-            if (!draft) return;
-            Object.entries(draft).forEach(([name, rawValue]) => {
-                const values = Array.isArray(rawValue) ? rawValue : [rawValue];
-                const fields = Array.from(form.querySelectorAll(`[name="${name}"]`));
-                fields.forEach((field) => {
-                    if (field.type === "checkbox" || field.type === "radio") {
-                        field.checked = values.includes(field.value);
-                    } else if (values[0] !== undefined) {
-                        field.value = values[0];
-                    }
-                });
-            });
-        } catch (_) {
-            sessionStorage.removeItem(storageKey);
-        }
-    };
+.back-home {
+    padding: 11px 18px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, .74);
+    font-weight: 700;
+    text-decoration: none;
+}
 
-    const updateFeedbackCount = () => {
-        if (feedback && feedbackCount) feedbackCount.textContent = String(feedback.value.length);
-    };
+main {
+    width: min(1040px, 91%);
+    margin: 0 auto;
+    padding: 30px 0 70px;
+}
 
-    const renderStep = () => {
-        steps.forEach((step, index) => {
-            const active = index === currentStep;
-            step.hidden = !active;
-            step.classList.toggle("is-active", active);
-        });
+.survey-intro {
+    max-width: 820px;
+    margin: 0 auto 42px;
+    text-align: center;
+}
 
-        const percent = Math.round(((currentStep + 1) / steps.length) * 100);
-        progressBar.style.width = `${percent}%`;
-        progressPercent.textContent = `${percent}%`;
-        stepLabel.textContent = `Passaggio ${currentStep + 1} di ${steps.length}`;
-        previousButton.hidden = currentStep === 0;
-        nextButton.hidden = currentStep === steps.length - 1;
-        submitButton.hidden = currentStep !== steps.length - 1;
-        hideAlert();
+.eyebrow,
+.step-kicker {
+    display: block;
+    color: var(--primary);
+    font-size: .78rem;
+    font-weight: 800;
+    letter-spacing: .12em;
+}
 
-        const activeLegend = steps[currentStep].querySelector("legend");
-        if (activeLegend && currentStep > 0) {
-            activeLegend.setAttribute("tabindex", "-1");
-            activeLegend.focus({ preventScroll: true });
-        }
-        window.scrollTo({ top: 0, behavior: "smooth" });
-    };
+.eyebrow {
+    width: fit-content;
+    margin: 0 auto 20px;
+    padding: 9px 17px;
+    border-radius: 999px;
+    background: var(--white);
+    box-shadow: 0 10px 30px rgba(104, 37, 66, .08);
+}
 
-    const validateStep = (step) => {
-        hideAlert();
-        step.querySelectorAll(".is-invalid").forEach((element) => element.classList.remove("is-invalid"));
+.survey-intro h1 {
+    margin-bottom: 20px;
+    font-size: clamp(2.45rem, 6vw, 4.5rem);
+    line-height: 1.03;
+    letter-spacing: -.05em;
+}
 
-        const invalidField = Array.from(step.querySelectorAll("input, select, textarea"))
-            .find((field) => !field.checkValidity());
+.survey-intro p {
+    max-width: 730px;
+    margin: 0 auto;
+    color: var(--muted);
+    font-size: clamp(1rem, 2vw, 1.16rem);
+}
 
-        const invalidGroup = Array.from(step.querySelectorAll("[data-required-group]"))
-            .find((group) => !group.querySelector("input:checked"));
+.intro-points {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 25px;
+}
 
-        if (invalidGroup) {
-            invalidGroup.classList.add("is-invalid");
-            showAlert("Seleziona almeno una risposta nella domanda evidenziata.");
-            invalidGroup.scrollIntoView({ behavior: "smooth", block: "center" });
-            return false;
-        }
+.intro-points span {
+    padding: 8px 14px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, .76);
+    color: var(--primary-dark);
+    font-size: .88rem;
+    font-weight: 700;
+}
 
-        if (invalidField) {
-            invalidField.classList.add("is-invalid");
-            showAlert("Controlla il campo evidenziato prima di continuare.");
-            invalidField.focus();
-            return false;
-        }
+.survey-shell {
+    padding: clamp(26px, 5vw, 58px);
+    border: 1px solid rgba(231, 56, 124, .1);
+    border-radius: var(--radius);
+    background: rgba(255, 255, 255, .94);
+    box-shadow: var(--shadow);
+}
 
-        if (step.dataset.step === "5") {
-            const wantsContact =
-                form.elements.join_members.checked ||
-                form.elements.newsletter_consent.checked;
-            const emailField = form.elements.email;
+.progress-wrap {
+    margin-bottom: 42px;
+}
 
-            if (wantsContact && !emailField.value.trim()) {
-                emailField.classList.add("is-invalid");
-                showAlert("Inserisci l'email per diventare Petite Member o ricevere le novità.");
-                emailField.focus();
-                return false;
-            }
-        }
+.progress-copy {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    color: var(--muted);
+    font-size: .85rem;
+    font-weight: 700;
+}
 
-        return true;
-    };
+.progress-track {
+    height: 9px;
+    overflow: hidden;
+    border-radius: 999px;
+    background: #f5e6ec;
+}
 
-    nextButton.addEventListener("click", () => {
-        if (!validateStep(steps[currentStep])) return;
-        saveDraft();
-        currentStep += 1;
-        renderStep();
-    });
+.progress-bar {
+    width: 20%;
+    height: 100%;
+    border-radius: inherit;
+    background: linear-gradient(90deg, var(--primary), #f276a7);
+    transition: width .35s ease;
+}
 
-    previousButton.addEventListener("click", () => {
-        saveDraft();
-        currentStep = Math.max(0, currentStep - 1);
-        renderStep();
-    });
+.form-step {
+    border: 0;
+}
 
-    form.addEventListener("input", (event) => {
-        event.target.classList.remove("is-invalid");
-        const group = event.target.closest("[data-required-group]");
-        if (group) group.classList.remove("is-invalid");
-        saveDraft();
-        updateFeedbackCount();
-    });
+.form-step[hidden] {
+    display: none;
+}
 
-    form.addEventListener("submit", async (event) => {
-        event.preventDefault();
-        if (!validateStep(steps[currentStep])) return;
+.form-step.is-active {
+    animation: step-in .35s ease both;
+}
 
-        if (getValue("website")) return;
+@keyframes step-in {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
 
-        if (!isConfigured) {
-            showAlert(
-                "Il questionario è pronto, ma il collegamento al database non è ancora stato configurato. Inserisci Project URL e Publishable key nel file js/config.js.",
-                "info"
-            );
-            return;
-        }
+legend {
+    width: 100%;
+    margin-bottom: 10px;
+    font-size: clamp(1.85rem, 4vw, 2.65rem);
+    font-weight: 800;
+    line-height: 1.15;
+    letter-spacing: -.035em;
+}
 
-        submitButton.disabled = true;
-        submitButton.textContent = "Invio in corso…";
-        hideAlert();
+legend .step-kicker {
+    margin-bottom: 11px;
+}
 
-        try {
-            const response = await fetch(`${cleanUrl}/rest/v1/questionnaire_responses`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "apikey": apiKey,
-                    "Authorization": `Bearer ${apiKey}`,
-                    "Prefer": "return=minimal",
-                },
-                body: JSON.stringify(collectPayload()),
-            });
+.step-description {
+    margin-bottom: 34px;
+    color: var(--muted);
+}
 
-            if (!response.ok) throw new Error(`Invio non riuscito (${response.status})`);
+.field-grid {
+    display: grid;
+    gap: 24px;
+}
 
-            sessionStorage.removeItem(storageKey);
-            form.hidden = true;
-            document.querySelector(".progress-wrap").hidden = true;
-            successPanel.hidden = false;
-            successPanel.focus();
-            window.scrollTo({ top: 0, behavior: "smooth" });
-        } catch (error) {
-            console.error("Petite Mood survey:", error);
-            showAlert(
-                "Non siamo riusciti a inviare le risposte. Controlla la connessione e riprova tra poco."
-            );
-        } finally {
-            submitButton.disabled = false;
-            submitButton.textContent = "Invia il questionario";
-        }
-    });
+.two-columns {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
 
-    restoreDraft();
-    updateFeedbackCount();
-    renderStep();
-});
+.field {
+    min-width: 0;
+    margin-bottom: 28px;
+}
+
+.field-grid .field {
+    margin-bottom: 0;
+}
+
+.field label:not(.choice-grid label),
+.field-label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: 700;
+    line-height: 1.45;
+}
+
+.field small {
+    display: block;
+    margin-top: 7px;
+    color: var(--muted);
+    font-size: .78rem;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="number"],
+select,
+textarea {
+    width: 100%;
+    min-height: 54px;
+    padding: 14px 16px;
+    border: 1px solid #dfd9dd;
+    border-radius: 14px;
+    color: var(--ink);
+    background: var(--white);
+    transition: border-color .2s ease, box-shadow .2s ease;
+}
+
+textarea {
+    min-height: 140px;
+    resize: vertical;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 4px rgba(231, 56, 124, .09);
+}
+
+input.is-invalid,
+select.is-invalid,
+textarea.is-invalid {
+    border-color: var(--danger);
+}
+
+.input-suffix {
+    position: relative;
+}
+
+.input-suffix input {
+    padding-right: 58px;
+}
+
+.input-suffix > span {
+    position: absolute;
+    top: 50%;
+    right: 17px;
+    color: var(--muted);
+    font-weight: 700;
+    transform: translateY(-50%);
+}
+
+.choice-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 11px;
+}
+
+.choice-grid.compact {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.choice-grid label,
+.rating-row label {
+    cursor: pointer;
+}
+
+.choice-grid input,
+.rating-row input {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.choice-grid span {
+    display: flex;
+    align-items: center;
+    min-height: 54px;
+    padding: 13px 15px;
+    border: 1px solid #e5dde1;
+    border-radius: 14px;
+    background: #fff;
+    font-size: .92rem;
+    font-weight: 600;
+    transition: .2s ease;
+}
+
+.choice-grid span::before {
+    width: 19px;
+    height: 19px;
+    margin-right: 10px;
+    border: 2px solid #d5cbd0;
+    border-radius: 6px;
+    content: "";
+    flex: 0 0 auto;
+}
+
+.choice-grid input:checked + span {
+    border-color: var(--primary);
+    color: var(--primary-dark);
+    background: var(--primary-soft);
+    box-shadow: 0 8px 22px rgba(231, 56, 124, .08);
+}
+
+.choice-grid input:checked + span::before {
+    border-color: var(--primary);
+    background:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath fill='none' stroke='white' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round' d='m4 10 4 4 8-9'/%3E%3C/svg%3E"),
+        var(--primary);
+}
+
+.rating-row {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 10px;
+}
+
+.rating-row span {
+    display: grid;
+    place-items: center;
+    min-height: 68px;
+    padding: 8px;
+    border: 1px solid #e5dde1;
+    border-radius: 14px;
+    background: white;
+    font-size: 1.12rem;
+    font-weight: 800;
+    transition: .2s ease;
+}
+
+.rating-row small {
+    margin: 0;
+    font-size: .64rem;
+    font-weight: 600;
+}
+
+.rating-row input:checked + span {
+    border-color: var(--primary);
+    color: white;
+    background: var(--primary);
+    transform: translateY(-2px);
+}
+
+[data-required-group].is-invalid {
+    padding: 9px;
+    border: 1px solid rgba(169, 35, 79, .5);
+    border-radius: 17px;
+    background: rgba(169, 35, 79, .035);
+}
+
+.character-count {
+    text-align: right;
+}
+
+.consent-list {
+    display: grid;
+    gap: 12px;
+    margin-top: 30px;
+}
+
+.consent-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 13px;
+    padding: 17px;
+    border: 1px solid #e5dde1;
+    border-radius: 15px;
+    cursor: pointer;
+    background: white;
+}
+
+.consent-card input {
+    width: 20px;
+    height: 20px;
+    margin-top: 2px;
+    accent-color: var(--primary);
+    flex: 0 0 auto;
+}
+
+.consent-card span {
+    color: var(--muted);
+    font-size: .9rem;
+}
+
+.consent-card strong {
+    display: block;
+    color: var(--ink);
+}
+
+.consent-card:has(input:checked) {
+    border-color: var(--primary);
+    background: var(--primary-soft);
+}
+
+.minor-note {
+    margin-top: 18px;
+    color: var(--muted);
+    font-size: .79rem;
+}
+
+.form-alert {
+    margin-top: 24px;
+    padding: 15px 17px;
+    border: 1px solid rgba(169, 35, 79, .28);
+    border-radius: 14px;
+    color: var(--danger);
+    background: #fff4f7;
+    font-size: .9rem;
+    font-weight: 600;
+}
+
+.form-alert.is-info {
+    border-color: rgba(39, 101, 150, .25);
+    color: #235f8d;
+    background: #f2f9ff;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    margin-top: 42px;
+    padding-top: 24px;
+    border-top: 1px solid #eee7eb;
+}
+
+.btn-primary,
+.btn-ghost,
+.btn-social {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 54px;
+    padding: 14px 25px;
+    border-radius: 999px;
+    font-weight: 800;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    transition: .25s ease;
+}
+
+.btn-primary {
+    margin-left: auto;
+    border: 0;
+    color: white;
+    background: var(--primary);
+    box-shadow: 0 14px 35px rgba(231, 56, 124, .22);
+}
+
+.btn-primary:hover {
+    background: var(--primary-dark);
+    transform: translateY(-2px);
+}
+
+.btn-primary:disabled {
+    cursor: wait;
+    opacity: .65;
+    transform: none;
+}
+
+.btn-ghost,
+.btn-social {
+    border: 1px solid var(--line);
+    color: var(--primary-dark);
+    background: white;
+}
+
+.success-panel {
+    max-width: 670px;
+    margin: 0 auto;
+    padding: 20px 0;
+    text-align: center;
+}
+
+.success-icon {
+    display: grid;
+    place-items: center;
+    width: 78px;
+    height: 78px;
+    margin: 0 auto 24px;
+    border-radius: 50%;
+    color: white;
+    background: var(--success);
+    box-shadow: 0 18px 38px rgba(22, 132, 91, .2);
+    font-size: 2.2rem;
+    font-weight: 800;
+}
+
+.success-panel h2 {
+    margin: 12px 0 18px;
+    font-size: clamp(2rem, 4.5vw, 3rem);
+    line-height: 1.14;
+}
+
+.success-panel p {
+    color: var(--muted);
+}
+
+.success-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 30px;
+}
+
+.success-actions .btn-primary {
+    margin-left: 0;
+}
+
+.survey-help {
+    margin-top: 32px;
+    color: var(--muted);
+    text-align: center;
+    font-size: .9rem;
+}
+
+.legal-page {
+    width: min(900px, 91%);
+}
+
+.legal-page .survey-shell {
+    padding: clamp(28px, 6vw, 70px);
+}
+
+.legal-page .eyebrow {
+    margin: 0 0 20px;
+}
+
+.legal-page h1 {
+    margin-bottom: 10px;
+    font-size: clamp(2.2rem, 5vw, 3.8rem);
+    line-height: 1.08;
+    letter-spacing: -.045em;
+}
+
+.legal-update {
+    margin-bottom: 34px;
+    color: var(--muted);
+    font-size: .85rem;
+}
+
+.legal-page h2 {
+    margin: 36px 0 10px;
+    font-size: 1.35rem;
+    line-height: 1.35;
+}
+
+.legal-page p,
+.legal-page li {
+    color: var(--muted);
+}
+
+.legal-page ul {
+    display: grid;
+    gap: 10px;
+    margin: 12px 0 0 22px;
+}
+
+.legal-notice {
+    padding: 18px 20px;
+    border-left: 4px solid var(--primary);
+    border-radius: 5px 14px 14px 5px;
+    background: var(--primary-soft);
+    color: var(--ink);
+}
+
+.legal-final {
+    margin-top: 40px;
+    border-left-color: #cf8b20;
+    background: #fff8e9;
+    font-size: .88rem;
+}
+
+.survey-footer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    padding: 30px 5%;
+    color: #817780;
+    background: #2f2f2f;
+    font-size: .84rem;
+}
+
+.survey-footer a {
+    color: white;
+}
+
+.honeypot {
+    position: absolute !important;
+    left: -9999px !important;
+}
+
+@media (max-width: 760px) {
+    .survey-header {
+        padding: 14px 0;
+    }
+
+    .survey-logo img {
+        width: 69px;
+        height: 55px;
+    }
+
+    .back-home {
+        padding: 9px 14px;
+        font-size: .82rem;
+    }
+
+    main {
+        padding-top: 20px;
+    }
+
+    .survey-intro {
+        margin-bottom: 28px;
+    }
+
+    .survey-shell {
+        padding: 25px 19px 28px;
+        border-radius: 22px;
+    }
+
+    .progress-wrap {
+        margin-bottom: 32px;
+    }
+
+    .two-columns,
+    .choice-grid,
+    .choice-grid.compact {
+        grid-template-columns: 1fr;
+    }
+
+    .field-grid {
+        gap: 20px;
+    }
+
+    .choice-grid {
+        gap: 9px;
+    }
+
+    .rating-row {
+        gap: 6px;
+    }
+
+    .rating-row span {
+        min-height: 61px;
+        padding: 6px 2px;
+    }
+
+    .rating-row small {
+        font-size: .56rem;
+    }
+
+    .form-actions {
+        flex-wrap: wrap;
+    }
+
+    .form-actions button {
+        flex: 1 1 150px;
+    }
+}
+
+@media (max-width: 430px) {
+    main {
+        width: 93%;
+    }
+
+    .survey-intro h1 {
+        font-size: 2.35rem;
+    }
+
+    .intro-points {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .intro-points span {
+        width: 100%;
+    }
+
+    .success-actions {
+        flex-direction: column;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto !important;
+        transition-duration: .01ms !important;
+        animation-duration: .01ms !important;
+    }
+}
+
+.cookie-banner {
+    position: fixed;
+    right: 18px;
+    bottom: 18px;
+    left: 18px;
+    z-index: 2000;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 22px;
+    max-width: 930px;
+    margin: auto;
+    padding: 19px 21px;
+    border: 1px solid var(--line);
+    border-radius: 19px;
+    background: rgba(255, 255, 255, .98);
+    box-shadow: 0 25px 70px rgba(45, 45, 45, .2);
+}
+
+.cookie-banner strong {
+    display: block;
+}
+
+.cookie-banner p {
+    color: var(--muted);
+    font-size: .82rem;
+}
+
+.cookie-actions {
+    display: flex;
+    gap: 8px;
+    flex: 0 0 auto;
+}
+
+.cookie-actions button {
+    min-height: 44px;
+    padding: 10px 16px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    color: var(--primary-dark);
+    background: white;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.cookie-actions .cookie-accept {
+    border-color: var(--primary);
+    color: white;
+    background: var(--primary);
+}
+
+@media (max-width: 680px) {
+    .cookie-banner {
+        align-items: stretch;
+        flex-direction: column;
+        gap: 13px;
+    }
+
+    .cookie-actions {
+        width: 100%;
+    }
+
+    .cookie-actions button {
+        flex: 1;
+    }
+}
