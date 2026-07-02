@@ -141,5 +141,134 @@ document.addEventListener("DOMContentLoaded", () => {
         link.setAttribute("rel", "noopener noreferrer");
     });
 
+       /* DATABASE, CONTATORI E NEWSLETTER */
+
+    const petiteConfig = window.PETITE_MOOD_CONFIG || {};
+    const supabaseUrl = String(petiteConfig.supabaseUrl || "").replace(/\/+$/, "");
+    const supabaseKey = String(petiteConfig.supabasePublishableKey || "");
+    const databaseReady = supabaseUrl.startsWith("https://") && supabaseKey.length > 20;
+
+    const supabaseRequest = async (path, options = {}) => {
+        if (!databaseReady) throw new Error("database_not_configured");
+
+        return fetch(`${supabaseUrl}${path}`, {
+            ...options,
+            headers: {
+                "Content-Type": "application/json",
+                "apikey": supabaseKey,
+                "Authorization": `Bearer ${supabaseKey}`,
+                ...(options.headers || {}),
+            },
+        });
+    };
+
+    const formatNumber = (value) => {
+        const number = Number(value);
+        if (!Number.isFinite(number)) return "0";
+        return new Intl.NumberFormat("it-IT").format(number);
+    };
+
+    const setStatValue = (selectors, value, suffix = "") => {
+        const formattedValue = `${formatNumber(value)}${suffix}`;
+
+        selectors.forEach((selector) => {
+            document.querySelectorAll(selector).forEach((element) => {
+                element.textContent = formattedValue;
+            });
+        });
+    };
+
+    const loadPublicStats = async () => {
+        if (!databaseReady) return;
+
+        try {
+            const response = await supabaseRequest(
+                "/rest/v1/site_stats?select=instagram_followers,tiktok_followers,questionnaire_count&id=eq.1",
+                {
+                    method: "GET",
+                }
+            );
+
+            if (!response.ok) return;
+
+            const rows = await response.json();
+            const stats = Array.isArray(rows) ? rows[0] : null;
+            if (!stats) return;
+
+            setStatValue(
+                ['[data-stat="instagram"]', '[data-stat="instagram_followers"]'],
+                stats.instagram_followers,
+                "+"
+            );
+
+            setStatValue(
+                ['[data-stat="tiktok"]', '[data-stat="tiktok_followers"]'],
+                stats.tiktok_followers,
+                "+"
+            );
+
+            setStatValue(
+                ['[data-stat="questionnaires"]', '[data-stat="questionnaire_count"]', '[data-stat="questionari"]'],
+                stats.questionnaire_count
+            );
+        } catch (error) {
+            console.warn("Contatori Petite Mood non disponibili:", error);
+        }
+    };
+
+    const newsletterForm = document.getElementById("newsletter-form");
+    const newsletterStatus = document.getElementById("newsletter-status");
+
+    if (newsletterForm && newsletterStatus) {
+        newsletterForm.addEventListener("submit", async (event) => {
+            event.preventDefault();
+            newsletterStatus.className = "newsletter-status";
+
+            if (!newsletterForm.checkValidity()) {
+                newsletterForm.reportValidity();
+                return;
+            }
+
+            if (!databaseReady) {
+                newsletterStatus.textContent =
+                    "L'iscrizione sarà disponibile a breve: stiamo completando il collegamento.";
+                newsletterStatus.classList.add("is-error");
+                return;
+            }
+
+            const email = newsletterForm.elements.email.value.trim().toLowerCase();
+            const submitButton = newsletterForm.querySelector('button[type="submit"]');
+            submitButton.disabled = true;
+            submitButton.textContent = "Iscrizione…";
+
+            try {
+                const response = await supabaseRequest("/rest/v1/rpc/subscribe_newsletter", {
+                    method: "POST",
+                    body: JSON.stringify({
+                        p_email: email,
+                        p_source: "website_newsletter",
+                    }),
+                });
+
+                if (!response.ok) throw new Error(`newsletter_${response.status}`);
+
+                newsletterForm.reset();
+                newsletterStatus.textContent =
+                    "Benvenuta nel Petite Club! Iscrizione completata 💖";
+                newsletterStatus.classList.add("is-success");
+                loadPublicStats();
+            } catch (error) {
+                console.error("Newsletter Petite Mood:", error);
+                newsletterStatus.textContent =
+                    "Non siamo riusciti a completare l'iscrizione. Riprova tra poco.";
+                newsletterStatus.classList.add("is-error");
+            } finally {
+                submitButton.disabled = false;
+                submitButton.textContent = "Iscriviti";
+            }
+        });
+    }
+
+    loadPublicStats();
     console.log("✅ Petite Mood 2.0 caricato");
 });
