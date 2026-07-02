@@ -234,11 +234,7 @@ document.addEventListener("DOMContentLoaded", () => {
             if (!response.ok) throw new Error(`Invio non riuscito (${response.status})`);
 
             sessionStorage.removeItem(storageKey);
-            form.hidden = true;
-            document.querySelector(".progress-wrap").hidden = true;
-            successPanel.hidden = false;
-            successPanel.focus();
-            window.scrollTo({ top: 0, behavior: "smooth" });
+            window.location.href = "grazie.html";
         } catch (error) {
             console.error("Petite Mood survey:", error);
             showAlert(
