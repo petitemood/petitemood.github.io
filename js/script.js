@@ -143,7 +143,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
        /* DATABASE, CONTATORI E NEWSLETTER */
 
-    const petiteConfig = window.PETITE_MOOD_CONFIG || {};
+    const petiteConfig = window.PETITE_MOOD_CONFIG || {
+        supabaseUrl: "https://sortfvzxjcxuvhexkqeg.supabase.co",
+        supabasePublishableKey: "sb_publishable_8-7p1KGq-d-j5XyimMSWDQ_Q4xUkNQW",
+    };
     const supabaseUrl = String(petiteConfig.supabaseUrl || "").replace(/\/+$/, "");
     const supabaseKey = String(petiteConfig.supabasePublishableKey || "");
     const databaseReady = supabaseUrl.startsWith("https://") && supabaseKey.length > 20;
@@ -211,6 +214,30 @@ document.addEventListener("DOMContentLoaded", () => {
                 ['[data-stat="questionnaires"]', '[data-stat="questionnaire_count"]', '[data-stat="questionari"]'],
                 stats.questionnaire_count
             );
+
+            try {
+                const membersResponse = await supabaseRequest(
+                    "/rest/v1/site_stats?select=members_count,newsletter_count&id=eq.1",
+                    {
+                        method: "GET",
+                    }
+                );
+
+                if (membersResponse.ok) {
+                    const memberRows = await membersResponse.json();
+                    const memberStats = Array.isArray(memberRows) ? memberRows[0] : null;
+                    const membersCount = memberStats?.members_count ?? memberStats?.newsletter_count;
+
+                    if (membersCount !== undefined && membersCount !== null) {
+                        setStatValue(
+                            ['[data-stat="members"]', '[data-stat="members_count"]', '[data-stat="newsletter_count"]'],
+                            membersCount
+                        );
+                    }
+                }
+            } catch (_) {
+                /* Il quarto contatore resta opzionale finché Supabase non espone il campo. */
+            }
         } catch (error) {
             console.warn("Contatori Petite Mood non disponibili:", error);
         }
