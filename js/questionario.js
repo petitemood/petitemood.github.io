@@ -220,7 +220,7 @@ document.addEventListener("DOMContentLoaded", () => {
         hideAlert();
 
         try {
-            const response = await fetch(`${cleanUrl}/rest/v1/questionario`, {
+            const response = await fetch(`${cleanUrl}/rest/v1/questionnaire_responses`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
