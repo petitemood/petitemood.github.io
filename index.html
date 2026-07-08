@@ -44,6 +44,25 @@
 
 <link rel="stylesheet" href="css/style.css?v=4">
 
+<style>
+.latest-content{padding:120px 0;background:#fff;}
+.content-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px;margin-top:54px;}
+.content-card{min-height:300px;display:flex;flex-direction:column;justify-content:space-between;padding:34px 30px;border-radius:24px;border:1px solid rgba(231,56,124,.12);background:linear-gradient(180deg,#fff,#fff8fb);box-shadow:0 16px 42px rgba(0,0,0,.05);color:var(--text);transition:.35s ease;}
+.content-card:hover{transform:translateY(-7px);box-shadow:0 22px 55px rgba(231,56,124,.14);border-color:rgba(231,56,124,.24);}
+.content-platform{width:max-content;display:inline-flex;align-items:center;padding:8px 14px;border-radius:999px;font-size:.78rem;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:var(--primary);background:var(--primary-light);}
+.content-card h3{font-size:1.55rem;line-height:1.25;margin:28px 0 12px;}
+.content-card p{color:var(--text-light);line-height:1.75;}
+.content-card strong{margin-top:28px;color:var(--primary);font-size:.98rem;}
+.instagram-card{background:linear-gradient(145deg,#fff,#fff2f7);}
+.tiktok-card{background:linear-gradient(145deg,#fff,#f4fbff);border-color:rgba(40,165,210,.16);}
+.tiktok-card .content-platform,.tiktok-card strong{color:#1680a8;}
+.tiktok-card .content-platform{background:#eef9fd;}
+.community-card{background:linear-gradient(145deg,#fff,#f7fff9);border-color:rgba(55,150,95,.16);}
+.community-card .content-platform,.community-card strong{color:#16845b;}
+.community-card .content-platform{background:#effaf4;}
+@media(max-width:768px){.latest-content{padding:76px 0;}.content-grid{grid-template-columns:1fr;gap:16px;margin-top:36px;}.content-card{min-height:250px;padding:28px 23px;border-radius:20px;}.content-card h3{font-size:1.35rem;}}
+</style>
+
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
