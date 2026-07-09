@@ -12,6 +12,7 @@ select
     (select count(*) from public.questionario) as questionari,
     (select count(*) from public.questionario where join_members) as petite_members,
     (select count(*) from public.newsletter_subscribers where active) as newsletter,
+    (select site_visit_count from public.site_stats where id = 1) as visite_sito,
     (select round(avg(height_cm), 1) from public.questionario) as altezza_media_cm,
     (select round(avg(shopping_difficulty), 1) from public.questionario) as difficolta_media,
     (select round(avg(purchase_intent), 1) from public.questionario) as interesse_acquisto_medio;
@@ -56,6 +57,15 @@ from public.questionario
 group by 1
 order by 1;
 
+create or replace view private.site_visit_paths as
+select
+    path as pagina,
+    count(*) as visite,
+    max(created_at) as ultima_visita
+from public.site_visits
+group by path
+order by visite desc, ultima_visita desc;
+
 -- RISULTATI RAPIDI
 
 select * from private.dashboard_summary;
@@ -63,3 +73,4 @@ select * from private.product_demand;
 select * from private.fit_problems;
 select * from private.preferred_styles;
 select * from private.height_distribution;
+select * from private.site_visit_paths;
