@@ -230,9 +230,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 if (membersResponse.ok) {
                     const memberRows = await membersResponse.json();
                     const memberStats = Array.isArray(memberRows) ? memberRows[0] : null;
-                    const membersCount = memberStats?.members_count ?? memberStats?.newsletter_count;
+                    const membersCount = Math.max(
+                        Number(memberStats?.members_count || 0),
+                        Number(memberStats?.newsletter_count || 0)
+                    );
 
-                    if (membersCount !== undefined && membersCount !== null) {
+                    if (Number.isFinite(membersCount)) {
                         setStatValue(
                             ['[data-stat="members"]', '[data-stat="members_count"]', '[data-stat="newsletter_count"]'],
                             membersCount
