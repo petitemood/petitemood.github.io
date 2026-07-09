@@ -77,6 +77,15 @@ with check (
 
 revoke all on public.questionario from anon, authenticated;
 
+grant usage on schema public to anon, authenticated;
+
+grant insert on public.questionario to anon, authenticated;
+
+-- PostgREST richiede anche SELECT a livello SQL per gestire l'endpoint REST.
+-- La lettura pubblica delle righe resta bloccata da RLS perche' non esiste
+-- una policy SELECT su public.questionario.
+grant select on public.questionario to anon, authenticated;
+
 grant insert (
     height_cm, age_range, region, body_proportion, top_size, bottom_size,
     shopping_difficulty, problem_areas, difficult_products,
