@@ -18,6 +18,11 @@ document.addEventListener("DOMContentLoaded", () => {
     const storageKey = "petiteMoodSurveyDraftV1";
     let currentStep = 0;
 
+    if (!steps.length || !previousButton || !nextButton || !submitButton || !progressBar || !progressPercent || !stepLabel || !formAlert) {
+        console.error("Petite Mood survey: elementi del questionario mancanti.");
+        return;
+    }
+
     const config = window.PETITE_MOOD_CONFIG || {};
     const cleanUrl = String(config.supabaseUrl || "").replace(/\/+$/, "");
     const apiKey = String(config.supabasePublishableKey || "");
@@ -45,6 +50,8 @@ document.addEventListener("DOMContentLoaded", () => {
         if (field instanceof RadioNodeList) return field.value;
         return String(field.value || "").trim();
     };
+
+    const isChecked = (name) => checkedValues(name).length > 0;
 
     const collectPayload = () => ({
         height_cm: Number(getValue("height_cm")),
@@ -165,11 +172,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (step.dataset.step === "5") {
             const wantsContact =
-                form.elements.join_members.checked ||
-                form.elements.newsletter_consent.checked;
-            const emailField = form.elements.email;
+                isChecked("join_members") ||
+                isChecked("newsletter_consent");
+            const emailField = form.elements.namedItem("email");
 
-            if (wantsContact && !emailField.value.trim()) {
+            if (wantsContact && emailField && !emailField.value.trim()) {
                 emailField.classList.add("is-invalid");
                 showAlert("Inserisci l'email per diventare Petite Member o ricevere le novità.");
                 emailField.focus();
@@ -220,7 +227,7 @@ document.addEventListener("DOMContentLoaded", () => {
         hideAlert();
 
         try {
-            const response = await fetch(`${cleanUrl}/rest/v1/questionnaire_responses`, {
+            const response = await fetch(`${cleanUrl}/rest/v1/questionario`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
