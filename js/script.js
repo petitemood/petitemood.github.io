@@ -150,6 +150,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const supabaseUrl = String(petiteConfig.supabaseUrl || "").replace(/\/+$/, "");
     const supabaseKey = String(petiteConfig.supabasePublishableKey || "");
     const databaseReady = supabaseUrl.startsWith("https://") && supabaseKey.length > 20;
+    const emailFunctionPath = "/functions/v1/send-confirmation-email";
 
     const supabaseRequest = async (path, options = {}) => {
         if (!databaseReady) throw new Error("database_not_configured");
@@ -272,6 +273,27 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     };
 
+    const sendConfirmationEmail = async (kind, email) => {
+        if (!email) return;
+
+        try {
+            const response = await supabaseRequest(emailFunctionPath, {
+                method: "POST",
+                keepalive: true,
+                body: JSON.stringify({
+                    kind,
+                    email,
+                }),
+            });
+
+            if (!response.ok) throw new Error(`email_${response.status}`);
+            console.log(`Petite Mood ${kind}: email confirmation requested.`);
+        } catch (_) {
+            // L'invio email e' separato dal salvataggio: se fallisce, l'iscrizione resta valida.
+            console.warn(`Petite Mood ${kind}: email confirmation unavailable.`);
+        }
+    };
+
     const newsletterForm = document.getElementById("newsletter-form");
     const newsletterStatus = document.getElementById("newsletter-status");
     let isNewsletterSubmitting = false;
@@ -319,6 +341,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 newsletterStatus.textContent =
                     "Perfetto! Ti aggiorneremo sulle novità Petite Mood 💕";
                 newsletterStatus.classList.add("is-success");
+                sendConfirmationEmail("newsletter", email);
                 loadPublicStats();
             } catch (error) {
                 console.error("Newsletter Petite Mood:", error);
