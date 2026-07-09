@@ -28,6 +28,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const cleanUrl = String(config.supabaseUrl || "").replace(/\/+$/, "");
     const apiKey = String(config.supabasePublishableKey || "");
     const isConfigured = cleanUrl.startsWith("https://") && apiKey.length > 20;
+    const emailFunctionUrl = `${cleanUrl}/functions/v1/send-confirmation-email`;
 
     const showAlert = (message, type = "error") => {
         formAlert.textContent = message;
@@ -81,6 +82,33 @@ document.addEventListener("DOMContentLoaded", () => {
         privacy_consent: checkedValues("privacy_consent").includes("true"),
         source: "website_questionnaire",
     });
+
+    const sendConfirmationEmail = async (payload) => {
+        if (!payload.email) return;
+
+        try {
+            const response = await fetch(emailFunctionUrl, {
+                method: "POST",
+                keepalive: true,
+                headers: {
+                    "Content-Type": "application/json",
+                    "apikey": apiKey,
+                    "Authorization": `Bearer ${apiKey}`,
+                },
+                body: JSON.stringify({
+                    kind: "questionnaire",
+                    email: payload.email,
+                    firstName: payload.first_name,
+                }),
+            });
+
+            if (!response.ok) throw new Error(`email_${response.status}`);
+            console.log("Petite Mood survey: email confirmation requested.");
+        } catch (error) {
+            // L'email non deve bloccare il questionario: il dato e' gia' stato salvato.
+            console.warn("Petite Mood survey: email confirmation unavailable.");
+        }
+    };
 
     const saveDraft = () => {
         try {
@@ -242,6 +270,7 @@ document.addEventListener("DOMContentLoaded", () => {
         hideAlert();
 
         try {
+            const payload = collectPayload();
             const response = await fetch(`${cleanUrl}/rest/v1/questionario`, {
                 method: "POST",
                 headers: {
@@ -250,11 +279,12 @@ document.addEventListener("DOMContentLoaded", () => {
                     "Authorization": `Bearer ${apiKey}`,
                     "Prefer": "return=minimal",
                 },
-                body: JSON.stringify(collectPayload()),
+                body: JSON.stringify(payload),
             });
 
             if (!response.ok) throw new Error(`Invio non riuscito (${response.status})`);
 
+            sendConfirmationEmail(payload);
             sessionStorage.removeItem(storageKey);
             form.hidden = true;
             if (successPanel) {
