@@ -62,8 +62,9 @@
 .social-embed-header{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:18px;}
 .social-embed-header h3{font-size:1.1rem;margin:0;line-height:1.35;}
 .social-embed-frame{width:100%;overflow:hidden;border-radius:18px;background:#fff;}
-.social-embed-frame .instagram-media,.social-embed-frame iframe{max-width:100%!important;min-width:0!important;width:100%!important;margin:0 auto!important;}
-.social-embed-frame .tiktok-embed{max-width:100%!important;min-width:0!important;margin:0 auto!important;}
+.social-embed-frame iframe{display:block;max-width:100%!important;min-width:0!important;width:100%!important;margin:0 auto!important;border:0;}
+.instagram-embed{height:690px;}
+.tiktok-embed-frame{height:760px;}
 .social-embed-link{display:inline-flex;margin-top:18px;font-weight:800;color:var(--primary);}
 .instagram-card{background:linear-gradient(145deg,#fff,#fff2f7);}
 .tiktok-card{background:linear-gradient(145deg,#fff,#f4fbff);border-color:rgba(40,165,210,.16);}
@@ -640,11 +641,12 @@ TikTok
                 </div>
 
                 <div class="social-embed-frame">
-                    <blockquote class="instagram-media"
-                        data-instgrm-permalink="https://www.instagram.com/reel/DaVpHuOoeC9/"
-                        data-instgrm-version="14">
-                        <a href="https://www.instagram.com/reel/DaVpHuOoeC9/?igsh=emt5Y243bnFjOWJq" target="_blank" rel="noopener noreferrer">Guarda il Reel su Instagram</a>
-                    </blockquote>
+                    <iframe class="instagram-embed"
+                        src="https://www.instagram.com/reel/DaVpHuOoeC9/embed/"
+                        title="Reel Instagram Petite Mood: outfit petite e proporzioni"
+                        loading="lazy"
+                        allowtransparency="true">
+                    </iframe>
                 </div>
 
                 <a class="social-embed-link" href="https://www.instagram.com/reel/DaVpHuOoeC9/?igsh=emt5Y243bnFjOWJq" target="_blank" rel="noopener noreferrer">Apri su Instagram</a>
@@ -657,11 +659,12 @@ TikTok
                 </div>
 
                 <div class="social-embed-frame">
-                    <blockquote class="instagram-media"
-                        data-instgrm-permalink="https://www.instagram.com/reel/Dac505iIlnH/"
-                        data-instgrm-version="14">
-                        <a href="https://www.instagram.com/reel/Dac505iIlnH/?igsh=Y3A4bW9lbmFna2dz" target="_blank" rel="noopener noreferrer">Guarda il Reel su Instagram</a>
-                    </blockquote>
+                    <iframe class="instagram-embed"
+                        src="https://www.instagram.com/reel/Dac505iIlnH/embed/"
+                        title="Reel Instagram Petite Mood: consigli per ragazze petite"
+                        loading="lazy"
+                        allowtransparency="true">
+                    </iframe>
                 </div>
 
                 <a class="social-embed-link" href="https://www.instagram.com/reel/Dac505iIlnH/?igsh=Y3A4bW9lbmFna2dz" target="_blank" rel="noopener noreferrer">Apri su Instagram</a>
@@ -674,13 +677,12 @@ TikTok
                 </div>
 
                 <div class="social-embed-frame">
-                    <blockquote class="tiktok-embed"
-                        cite="https://www.tiktok.com/@petitemood.it/video/7656468601334992161"
-                        data-video-id="7656468601334992161">
-                        <section>
-                            <a target="_blank" rel="noopener noreferrer" href="https://www.tiktok.com/@petitemood.it/video/7656468601334992161">Guarda il video su TikTok</a>
-                        </section>
-                    </blockquote>
+                    <iframe class="tiktok-embed-frame"
+                        src="https://www.tiktok.com/embed/v2/7656468601334992161"
+                        title="TikTok Petite Mood: problemi reali del mondo petite"
+                        loading="lazy"
+                        allow="encrypted-media">
+                    </iframe>
                 </div>
 
                 <a class="social-embed-link" href="https://vm.tiktok.com/ZNRExc5SH/" target="_blank" rel="noopener noreferrer">Apri su TikTok</a>
@@ -693,13 +695,12 @@ TikTok
                 </div>
 
                 <div class="social-embed-frame">
-                    <blockquote class="tiktok-embed"
-                        cite="https://www.tiktok.com/@petitemood.it/video/7656796026703072545"
-                        data-video-id="7656796026703072545">
-                        <section>
-                            <a target="_blank" rel="noopener noreferrer" href="https://www.tiktok.com/@petitemood.it/video/7656796026703072545">Guarda il video su TikTok</a>
-                        </section>
-                    </blockquote>
+                    <iframe class="tiktok-embed-frame"
+                        src="https://www.tiktok.com/embed/v2/7656796026703072545"
+                        title="TikTok Petite Mood: la community si racconta"
+                        loading="lazy"
+                        allow="encrypted-media">
+                    </iframe>
                 </div>
 
                 <a class="social-embed-link" href="https://vm.tiktok.com/ZNRExERwp/" target="_blank" rel="noopener noreferrer">Apri su TikTok</a>
@@ -840,8 +841,6 @@ TikTok
 <script src="js/config.js?v=1"></script>
 <script src="js/analytics.js?v=1"></script>
 <script src="js/script.js?v=6"></script>
-<script async src="https://www.instagram.com/embed.js"></script>
-<script async src="https://www.tiktok.com/embed.js"></script>
 
 </body>
 
