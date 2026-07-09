@@ -1395,6 +1395,57 @@ background:radial-gradient(circle at 86% 20%,rgba(231,56,124,.14),transparent 31
 .newsletter input{flex:1 1 360px;min-width:0;min-height:58px;max-width:none;}
 .newsletter button{min-height:58px;}
 
+.hero-subtitle{
+font-size:clamp(1.55rem,3vw,2.35rem);
+line-height:1.2;
+font-weight:700;
+color:var(--primary);
+margin:-12px 0 24px;
+letter-spacing:-.025em;
+}
+
+.why-lines{
+max-width:900px;
+margin:0 auto 58px;
+display:grid;
+gap:14px;
+}
+
+.why-lines p{
+padding:18px 24px;
+border:1px solid rgba(231,56,124,.1);
+border-radius:18px;
+background:linear-gradient(145deg,#fff,#fff8fb);
+box-shadow:0 10px 28px rgba(73,26,45,.05);
+font-size:clamp(1.05rem,1.5vw,1.22rem);
+font-weight:600;
+line-height:1.55;
+color:var(--text);
+}
+
+.section-cta{
+margin-top:46px;
+text-align:center;
+}
+
+.section-cta p{
+margin:0 auto 18px;
+max-width:680px;
+font-size:1.08rem;
+font-weight:700;
+color:var(--text);
+}
+
+.stat-card h3{
+overflow-wrap:anywhere;
+}
+
+.stat-card h3.stat-placeholder{
+font-size:clamp(1.15rem,2vw,1.55rem);
+line-height:1.25;
+letter-spacing:0;
+}
+
 /* ===================================================
    ANIMAZIONI
 =================================================== */
