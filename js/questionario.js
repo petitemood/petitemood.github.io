@@ -17,6 +17,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const feedbackCount = document.getElementById("feedback-count");
     const storageKey = "petiteMoodSurveyDraftV1";
     let currentStep = 0;
+    let isSubmitting = false;
 
     if (!steps.length || !previousButton || !nextButton || !submitButton || !progressBar || !progressPercent || !stepLabel || !formAlert) {
         console.error("Petite Mood survey: elementi del questionario mancanti.");
@@ -140,7 +141,7 @@ document.addEventListener("DOMContentLoaded", () => {
         nextButton.hidden = isLastStep;
         nextButton.disabled = isLastStep;
         submitButton.hidden = !isLastStep;
-        submitButton.disabled = false;
+        submitButton.disabled = isSubmitting;
         hideAlert();
 
         const activeLegend = steps[currentStep].querySelector("legend");
@@ -220,6 +221,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     form.addEventListener("submit", async (event) => {
         event.preventDefault();
+        if (isSubmitting) return;
         if (!validateStep(steps[currentStep])) return;
 
         if (getValue("website")) return;
@@ -232,8 +234,11 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
+        isSubmitting = true;
+        previousButton.disabled = true;
+        nextButton.disabled = true;
         submitButton.disabled = true;
-        submitButton.textContent = "Invio in corso…";
+        submitButton.textContent = "Invio in corso...";
         hideAlert();
 
         try {
@@ -251,15 +256,26 @@ document.addEventListener("DOMContentLoaded", () => {
             if (!response.ok) throw new Error(`Invio non riuscito (${response.status})`);
 
             sessionStorage.removeItem(storageKey);
-            window.location.href = "grazie.html";
+            form.hidden = true;
+            if (successPanel) {
+                successPanel.hidden = false;
+                successPanel.focus();
+            } else {
+                showAlert("Grazie! Le tue risposte ci aiutano a creare capi davvero pensati per ragazze petite 💕", "info");
+            }
+            window.setTimeout(() => {
+                window.location.href = "grazie.html";
+            }, 2200);
         } catch (error) {
             console.error("Petite Mood survey:", error);
             showAlert(
-                "Non siamo riusciti a inviare le risposte. Controlla la connessione e riprova tra poco."
+                "Ops, qualcosa non ha funzionato. Riprova tra poco oppure scrivici su Instagram."
             );
-        } finally {
+            isSubmitting = false;
+            previousButton.disabled = false;
+            nextButton.disabled = false;
             submitButton.disabled = false;
-            submitButton.textContent = "Invia il questionario";
+            submitButton.textContent = "Invia le tue risposte";
         }
     });
 
