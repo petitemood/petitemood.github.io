@@ -1023,8 +1023,9 @@ background:#fff;
 
 }
 
-.social-embed-frame .instagram-media,
 .social-embed-frame iframe{
+
+display:block;
 
 max-width:100%!important;
 
@@ -1034,17 +1035,13 @@ width:100%!important;
 
 margin:0 auto!important;
 
-}
-
-.social-embed-frame .tiktok-embed{
-
-max-width:100%!important;
-
-min-width:0!important;
-
-margin:0 auto!important;
+border:0;
 
 }
+
+.instagram-embed{height:690px;}
+
+.tiktok-embed-frame{height:760px;}
 
 .social-embed-link{
 
