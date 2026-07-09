@@ -238,6 +238,28 @@ document.addEventListener("DOMContentLoaded", () => {
             } catch (_) {
                 /* Il quarto contatore resta opzionale finché Supabase non espone il campo. */
             }
+            try {
+                const visitsResponse = await supabaseRequest(
+                    "/rest/v1/site_stats?select=site_visit_count&id=eq.1",
+                    {
+                        method: "GET",
+                    }
+                );
+
+                if (visitsResponse.ok) {
+                    const visitRows = await visitsResponse.json();
+                    const visitStats = Array.isArray(visitRows) ? visitRows[0] : null;
+
+                    if (visitStats?.site_visit_count !== undefined && visitStats?.site_visit_count !== null) {
+                        setStatValue(
+                            ['[data-stat="visits"]', '[data-stat="site_visit_count"]'],
+                            visitStats.site_visit_count
+                        );
+                    }
+                }
+            } catch (_) {
+                /* Il contatore visite resta a 0 finche' Supabase non espone il campo. */
+            }
         } catch (error) {
             console.warn("Contatori Petite Mood non disponibili:", error);
         }
@@ -296,6 +318,33 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
+    const trackSiteVisit = async () => {
+        if (!databaseReady) return;
+
+        const storageKey = "petiteMoodVisitTracked";
+
+        try {
+            if (sessionStorage.getItem(storageKey) === "true") return;
+            sessionStorage.setItem(storageKey, "true");
+        } catch (_) {
+            /* Se lo storage non e' disponibile, contiamo comunque la visita. */
+        }
+
+        try {
+            const response = await supabaseRequest("/rest/v1/rpc/track_site_visit", {
+                method: "POST",
+                body: JSON.stringify({
+                    p_path: window.location.pathname || "/",
+                }),
+            });
+
+            if (response.ok) loadPublicStats();
+        } catch (error) {
+            console.warn("Visite Petite Mood non disponibili:", error);
+        }
+    };
+
     loadPublicStats();
+    trackSiteVisit();
     console.log("✅ Petite Mood 2.0 caricato");
 });
