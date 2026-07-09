@@ -167,16 +167,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const formatNumber = (value) => {
         const number = Number(value);
-        if (!Number.isFinite(number)) return "0";
+        if (!Number.isFinite(number) || number <= 0) return "Stiamo crescendo";
         return new Intl.NumberFormat("it-IT").format(number);
     };
 
     const setStatValue = (selectors, value, suffix = "") => {
-        const formattedValue = `${formatNumber(value)}${suffix}`;
+        const formattedNumber = formatNumber(value);
+        const formattedValue = formattedNumber === "Stiamo crescendo"
+            ? formattedNumber
+            : `${formattedNumber}${suffix}`;
 
         selectors.forEach((selector) => {
             document.querySelectorAll(selector).forEach((element) => {
                 element.textContent = formattedValue;
+                element.classList.toggle("stat-placeholder", formattedValue === "Stiamo crescendo");
             });
         });
     };
@@ -267,10 +271,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const newsletterForm = document.getElementById("newsletter-form");
     const newsletterStatus = document.getElementById("newsletter-status");
+    let isNewsletterSubmitting = false;
 
     if (newsletterForm && newsletterStatus) {
         newsletterForm.addEventListener("submit", async (event) => {
             event.preventDefault();
+            if (isNewsletterSubmitting) return;
             newsletterStatus.className = "newsletter-status";
 
             if (!newsletterForm.checkValidity()) {
@@ -287,8 +293,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
             const email = newsletterForm.elements.email.value.trim().toLowerCase();
             const submitButton = newsletterForm.querySelector('button[type="submit"]');
+            isNewsletterSubmitting = true;
             submitButton.disabled = true;
-            submitButton.textContent = "Iscrizione…";
+            submitButton.textContent = "Salvataggio...";
 
             try {
                 const response = await supabaseRequest("/rest/v1/rpc/subscribe_newsletter", {
@@ -303,17 +310,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 newsletterForm.reset();
                 newsletterStatus.textContent =
-                    "Benvenuta nel Petite Club! Iscrizione completata 💖";
+                    "Perfetto! Ti aggiorneremo sulle novità Petite Mood 💕";
                 newsletterStatus.classList.add("is-success");
                 loadPublicStats();
             } catch (error) {
                 console.error("Newsletter Petite Mood:", error);
                 newsletterStatus.textContent =
-                    "Non siamo riusciti a completare l'iscrizione. Riprova tra poco.";
+                    "Non siamo riusciti a salvare la tua email. Riprova tra poco.";
                 newsletterStatus.classList.add("is-error");
             } finally {
+                isNewsletterSubmitting = false;
                 submitButton.disabled = false;
-                submitButton.textContent = "Iscriviti";
+                submitButton.textContent = "Resta nel mood";
             }
         });
     }
