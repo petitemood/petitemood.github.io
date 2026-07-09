@@ -296,10 +296,14 @@ document.addEventListener("DOMContentLoaded", () => {
             isNewsletterSubmitting = true;
             submitButton.disabled = true;
             submitButton.textContent = "Salvataggio...";
+            let timeoutId;
 
             try {
+                const controller = new AbortController();
+                timeoutId = window.setTimeout(() => controller.abort(), 12000);
                 const response = await supabaseRequest("/rest/v1/rpc/subscribe_newsletter", {
                     method: "POST",
+                    signal: controller.signal,
                     body: JSON.stringify({
                         p_email: email,
                         p_source: "website_newsletter",
@@ -319,6 +323,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     "Non siamo riusciti a salvare la tua email. Riprova tra poco.";
                 newsletterStatus.classList.add("is-error");
             } finally {
+                if (timeoutId) window.clearTimeout(timeoutId);
                 isNewsletterSubmitting = false;
                 submitButton.disabled = false;
                 submitButton.textContent = "Resta nel mood";
