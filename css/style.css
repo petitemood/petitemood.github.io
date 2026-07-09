@@ -1548,15 +1548,16 @@ header .container{height:var(--header-height);gap:12px;}
 .menu-toggle{width:43px;height:43px;margin-left:auto;font-size:26px;}
 nav{top:calc(100% + 8px);padding:14px;border-radius:18px;}
 
-.hero{padding:112px 0 72px;background:radial-gradient(circle at 100% 22%,rgba(231,56,124,.12),transparent 32%),linear-gradient(180deg,#fff 0%,#fff5f9 100%);}
+.hero{padding:96px 0 54px;background:radial-gradient(circle at 100% 22%,rgba(231,56,124,.12),transparent 32%),linear-gradient(180deg,#fff 0%,#fff5f9 100%);}
 .hero::before{top:-180px;right:-220px;width:470px;height:470px;}
-.hero-grid{gap:42px;}
-.hero-badge{display:inline-flex;justify-content:center;width:fit-content;margin-bottom:23px;padding:10px 16px;border-radius:18px;font-size:.74rem;text-align:center;}
-.hero h1{margin-bottom:22px;font-size:clamp(2.35rem,10vw,3.25rem);letter-spacing:-.04em;line-height:1.06;}
-.hero p{margin-bottom:31px;font-size:1rem;line-height:1.7;}
+.hero-grid{gap:26px;}
+.hero-badge{display:inline-flex;justify-content:center;width:fit-content;margin-bottom:16px;padding:9px 14px;border-radius:18px;font-size:.72rem;text-align:center;}
+.hero h1{margin-bottom:12px;font-size:clamp(2.35rem,10vw,3.25rem);letter-spacing:-.04em;line-height:1.06;}
+.hero-subtitle{margin:-4px 0 16px;font-size:clamp(1.28rem,6vw,1.75rem);}
+.hero p{margin-bottom:18px;font-size:.98rem;line-height:1.58;}
 .hero-buttons{gap:11px;}
 .btn-primary,.btn-secondary{min-height:54px;padding:15px 23px;font-size:.92rem;}
-.hero-right img{width:min(100%,470px);aspect-ratio:4/5;border-width:5px;object-position:59% center;}
+.hero-right img{width:min(100%,240px);aspect-ratio:4/5;border-width:5px;object-position:59% center;}
 
 .section-title{margin-bottom:45px;}
 .section-title span,.story-text>span,.questionnaire-box>span{margin-bottom:18px;padding:8px 16px;font-size:.74rem;}
@@ -1593,11 +1594,13 @@ nav{top:calc(100% + 8px);padding:14px;border-radius:18px;}
 @media(max-width:500px){
 .container{width:92%;}
 .logo img{height:50px;}
-.hero{padding-top:103px;}
+.hero{padding-top:88px;}
 .hero-badge{display:flex;width:100%;}
 .hero h1{font-size:clamp(2.15rem,10.8vw,2.75rem);}
-.hero-buttons{flex-direction:column;width:100%;}
-.hero-buttons .btn-primary,.hero-buttons .btn-secondary,.social-buttons .btn-primary,.social-buttons .btn-secondary{width:100%;}
+.hero-buttons{display:grid;grid-template-columns:1fr 1fr;width:100%;}
+.hero-buttons .btn-primary{grid-column:1/-1;width:100%;}
+.hero-buttons .btn-secondary{width:100%;min-height:54px;padding-inline:8px;font-size:.8rem;white-space:nowrap;}
+.social-buttons .btn-primary,.social-buttons .btn-secondary{width:100%;}
 .stats{grid-template-columns:1fr;}
 .questionnaire-benefits{flex-direction:column;}
 .questionnaire-benefits div,.questionnaire-box>.btn-primary{width:100%;}
