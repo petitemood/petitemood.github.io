@@ -977,6 +977,87 @@ font-size:.98rem;
 
 }
 
+.social-embed-card{
+
+min-height:auto;
+
+padding:22px;
+
+overflow:hidden;
+
+}
+
+.social-embed-header{
+
+display:flex;
+
+align-items:center;
+
+justify-content:space-between;
+
+gap:14px;
+
+margin-bottom:18px;
+
+}
+
+.social-embed-header h3{
+
+font-size:1.1rem;
+
+line-height:1.35;
+
+margin:0;
+
+}
+
+.social-embed-frame{
+
+width:100%;
+
+overflow:hidden;
+
+border-radius:18px;
+
+background:#fff;
+
+}
+
+.social-embed-frame .instagram-media,
+.social-embed-frame iframe{
+
+max-width:100%!important;
+
+min-width:0!important;
+
+width:100%!important;
+
+margin:0 auto!important;
+
+}
+
+.social-embed-frame .tiktok-embed{
+
+max-width:100%!important;
+
+min-width:0!important;
+
+margin:0 auto!important;
+
+}
+
+.social-embed-link{
+
+display:inline-flex;
+
+margin-top:18px;
+
+font-weight:800;
+
+color:var(--primary);
+
+}
+
 .instagram-card{
 
 background:linear-gradient(145deg,#fff,#fff2f7);
@@ -992,7 +1073,8 @@ border-color:rgba(40,165,210,.16);
 }
 
 .tiktok-card .content-platform,
-.tiktok-card strong{
+.tiktok-card strong,
+.tiktok-card .social-embed-link{
 
 color:#1680a8;
 
