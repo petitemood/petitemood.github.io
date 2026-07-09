@@ -602,7 +602,7 @@ background:white;
 
 display:grid;
 
-grid-template-columns:repeat(4,1fr);
+grid-template-columns:repeat(5,1fr);
 
 gap:25px;
 
@@ -864,6 +864,169 @@ flex-wrap:wrap;
 
 
 /* ===================================================
+   ULTIMI CONTENUTI
+=================================================== */
+
+.latest-content{
+
+padding:120px 0;
+
+background:#fff;
+
+}
+
+.content-grid{
+
+display:grid;
+
+grid-template-columns:repeat(2,minmax(0,1fr));
+
+gap:24px;
+
+margin-top:54px;
+
+}
+
+.content-card{
+
+min-height:300px;
+
+display:flex;
+
+flex-direction:column;
+
+justify-content:space-between;
+
+padding:34px 30px;
+
+border-radius:24px;
+
+border:1px solid rgba(231,56,124,.12);
+
+background:linear-gradient(180deg,#fff,#fff8fb);
+
+box-shadow:0 16px 42px rgba(0,0,0,.05);
+
+color:var(--text);
+
+transition:.35s ease;
+
+}
+
+.content-card:hover{
+
+transform:translateY(-7px);
+
+box-shadow:0 22px 55px rgba(231,56,124,.14);
+
+border-color:rgba(231,56,124,.24);
+
+}
+
+.content-platform{
+
+width:max-content;
+
+display:inline-flex;
+
+align-items:center;
+
+padding:8px 14px;
+
+border-radius:999px;
+
+font-size:.78rem;
+
+font-weight:800;
+
+letter-spacing:.04em;
+
+text-transform:uppercase;
+
+color:var(--primary);
+
+background:var(--primary-light);
+
+}
+
+.content-card h3{
+
+font-size:1.55rem;
+
+line-height:1.25;
+
+margin:28px 0 12px;
+
+}
+
+.content-card p{
+
+color:var(--text-light);
+
+line-height:1.75;
+
+}
+
+.content-card strong{
+
+margin-top:28px;
+
+color:var(--primary);
+
+font-size:.98rem;
+
+}
+
+.instagram-card{
+
+background:linear-gradient(145deg,#fff,#fff2f7);
+
+}
+
+.tiktok-card{
+
+background:linear-gradient(145deg,#fff,#f4fbff);
+
+border-color:rgba(40,165,210,.16);
+
+}
+
+.tiktok-card .content-platform,
+.tiktok-card strong{
+
+color:#1680a8;
+
+}
+
+.tiktok-card .content-platform{
+
+background:#eef9fd;
+
+}
+
+.community-card{
+
+background:linear-gradient(145deg,#fff,#f7fff9);
+
+border-color:rgba(55,150,95,.16);
+
+}
+
+.community-card .content-platform,
+.community-card strong{
+
+color:#16845b;
+
+}
+
+.community-card .content-platform{
+
+background:#effaf4;
+
+}
+
+
+/* ===================================================
    NEWSLETTER
 =================================================== */
 
@@ -941,6 +1104,59 @@ background:var(--primary-dark);
 
 }
 
+.newsletter-form{
+align-items:center;
+}
+
+.newsletter-consent{
+display:flex;
+align-items:flex-start;
+gap:10px;
+flex:0 0 100%;
+max-width:610px;
+margin-top:4px;
+color:var(--text-light);
+font-size:.82rem;
+line-height:1.55;
+text-align:left;
+cursor:pointer;
+}
+
+.newsletter-consent input{
+width:18px;
+height:18px;
+min-height:auto;
+margin-top:2px;
+padding:0;
+accent-color:var(--primary);
+flex:0 0 auto;
+}
+
+.newsletter-consent a{
+color:var(--primary-dark);
+font-weight:700;
+text-decoration:underline;
+text-underline-offset:2px;
+}
+
+.newsletter-status{
+min-height:24px;
+flex:0 0 100%;
+margin-top:2px;
+color:var(--text-light);
+font-size:.88rem;
+font-weight:600;
+text-align:center;
+}
+
+.newsletter-status.is-success{color:#16845b;}
+.newsletter-status.is-error{color:#a9234f;}
+
+.newsletter button:disabled{
+cursor:wait;
+opacity:.65;
+}
+
 
 /* ===================================================
    FOOTER
@@ -994,6 +1210,19 @@ transition:.3s;
 
 color:#F8BBD0;
 
+}
+
+.footer-legal{
+display:flex;
+justify-content:center;
+gap:12px;
+font-size:.88rem;
+}
+
+.footer-legal a{
+color:#F8BBD0;
+text-decoration:underline;
+text-underline-offset:3px;
 }
 
 footer hr{
@@ -1203,7 +1432,7 @@ nav{top:calc(100% + 8px);padding:14px;border-radius:18px;}
 .section-title span,.story-text>span,.questionnaire-box>span{margin-bottom:18px;padding:8px 16px;font-size:.74rem;}
 .section-title h2,.story-text h2,.questionnaire-box h2{font-size:clamp(2rem,8vw,2.55rem);}
 .section-title p{font-size:1rem;}
-.features,.mission,.community,.instagram,.newsletter,.story,.questionnaire{padding:76px 0;}
+.features,.mission,.community,.instagram,.latest-content,.newsletter,.story,.questionnaire{padding:76px 0;}
 .features-grid,.mission-grid{grid-template-columns:1fr;gap:18px;}
 .features-grid .feature-card:last-child,.mission-grid .mission-card:last-child{grid-column:auto;width:100%;}
 .feature-card,.mission-card{padding:31px 24px;}
@@ -1221,6 +1450,9 @@ nav{top:calc(100% + 8px);padding:14px;border-radius:18px;}
 .newsletter form{flex-direction:column;gap:11px;}
 .newsletter input{flex-basis:auto;width:100%;}
 .newsletter button{width:100%;}
+.content-grid{grid-template-columns:1fr;gap:16px;margin-top:36px;}
+.content-card{min-height:250px;padding:28px 23px;border-radius:20px;}
+.content-card h3{font-size:1.35rem;}
 .footer-social{gap:20px;}
 }
 
@@ -1247,4 +1479,49 @@ nav{top:calc(100% + 8px);padding:14px;border-radius:18px;}
 html{scroll-behavior:auto;}
 *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important;}
 .hidden,.show{opacity:1;transform:none;}
+}
+
+/* ===================================================
+   CONSENSO STATISTICHE
+=================================================== */
+
+.cookie-banner{
+position:fixed;
+right:20px;
+bottom:20px;
+left:20px;
+z-index:2000;
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:24px;
+max-width:960px;
+margin:auto;
+padding:20px 22px;
+border:1px solid rgba(231,56,124,.18);
+border-radius:20px;
+background:rgba(255,255,255,.98);
+box-shadow:0 25px 70px rgba(45,45,45,.2);
+}
+
+.cookie-banner strong{display:block;margin-bottom:4px;}
+.cookie-banner p{color:var(--text-light);font-size:.84rem;line-height:1.55;}
+.cookie-banner a{color:var(--primary-dark);font-weight:700;text-decoration:underline;}
+.cookie-actions{display:flex;gap:9px;flex:0 0 auto;}
+.cookie-actions button{
+min-height:44px;
+padding:10px 17px;
+border:1px solid var(--border);
+border-radius:999px;
+color:var(--primary-dark);
+background:white;
+font-weight:700;
+cursor:pointer;
+}
+.cookie-actions .cookie-accept{border-color:var(--primary);color:white;background:var(--primary);}
+
+@media(max-width:680px){
+.cookie-banner{align-items:stretch;flex-direction:column;gap:14px;padding:18px;}
+.cookie-actions{width:100%;}
+.cookie-actions button{flex:1;}
 }
