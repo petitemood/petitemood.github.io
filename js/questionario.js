@@ -123,19 +123,24 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     const renderStep = () => {
+        currentStep = Math.min(Math.max(currentStep, 0), steps.length - 1);
+
         steps.forEach((step, index) => {
             const active = index === currentStep;
             step.hidden = !active;
             step.classList.toggle("is-active", active);
         });
 
+        const isLastStep = currentStep === steps.length - 1;
         const percent = Math.round(((currentStep + 1) / steps.length) * 100);
         progressBar.style.width = `${percent}%`;
         progressPercent.textContent = `${percent}%`;
         stepLabel.textContent = `Passaggio ${currentStep + 1} di ${steps.length}`;
         previousButton.hidden = currentStep === 0;
-        nextButton.hidden = currentStep === steps.length - 1;
-        submitButton.hidden = currentStep !== steps.length - 1;
+        nextButton.hidden = isLastStep;
+        nextButton.disabled = isLastStep;
+        submitButton.hidden = !isLastStep;
+        submitButton.disabled = false;
         hideAlert();
 
         const activeLegend = steps[currentStep].querySelector("legend");
@@ -188,9 +193,14 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     nextButton.addEventListener("click", () => {
+        if (currentStep >= steps.length - 1) {
+            renderStep();
+            return;
+        }
+
         if (!validateStep(steps[currentStep])) return;
         saveDraft();
-        currentStep += 1;
+        currentStep = Math.min(currentStep + 1, steps.length - 1);
         renderStep();
     });
 
