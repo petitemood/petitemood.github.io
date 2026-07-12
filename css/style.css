@@ -1370,6 +1370,10 @@ cursor:pointer;
 .guide-grid,.card-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
 .guide-card,.info-card,.diary-card{background:#fff;border:1px solid rgba(231,56,124,.1);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;padding:30px}
 .guide-card img{width:100%;height:210px;object-fit:cover;border-radius:18px;margin-bottom:24px}
+.guide-icon{position:relative;display:grid;place-items:center;width:100%;height:210px;margin-bottom:24px;border-radius:18px;background:linear-gradient(145deg,#fff4f8,#ffe3ee);color:var(--primary);overflow:hidden}
+.guide-icon::before{content:"";position:absolute;width:118px;height:118px;border:1px solid rgba(231,56,124,.16);border-radius:50%}
+.guide-icon svg{position:relative;width:92px;height:92px;fill:none;stroke:currentColor;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
+.guide-icon text{fill:currentColor;stroke:none;font:700 9px Arial,sans-serif}
 .guide-card h2,.guide-card h3,.info-card h2,.info-card h3,.diary-card h2{font-size:25px;line-height:1.25;margin-bottom:14px}
 .guide-card p,.info-card p,.diary-card p,.article-body p,.article-body li{color:var(--text-light)}
 .guide-card .btn-primary{display:inline-block;margin-top:22px;padding:13px 23px}
