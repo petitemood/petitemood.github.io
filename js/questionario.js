@@ -284,7 +284,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             if (!response.ok) throw new Error(`Invio non riuscito (${response.status})`);
 
-            sendConfirmationEmail(payload);
+            await sendConfirmationEmail(payload);
             sessionStorage.removeItem(storageKey);
             form.hidden = true;
             if (successPanel) {
