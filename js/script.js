@@ -166,29 +166,18 @@ document.addEventListener("DOMContentLoaded", () => {
         if (!databaseReady) return;
 
         try {
-            const response = await supabaseRequest("/rest/v1/rpc/get_public_stats", {
-                method: "POST",
-                body: "{}",
-            });
+            const response = await supabaseRequest(
+                "/rest/v1/site_stats?select=instagram_followers,tiktok_followers,questionnaire_count,members_count&id=eq.1"
+            );
 
             if (!response.ok) return;
-            const stats = await response.json();
-
-            if (!("instagram_followers" in stats) || !("tiktok_followers" in stats)) {
-                const socialResponse = await supabaseRequest(
-                    "/rest/v1/site_stats?select=instagram_followers,tiktok_followers&id=eq.1"
-                );
-                if (socialResponse.ok) {
-                    const [socialStats] = await socialResponse.json();
-                    Object.assign(stats, socialStats || {});
-                }
-            }
+            const [stats = {}] = await response.json();
 
             const statFields = {
                 instagram: "instagram_followers",
                 tiktok: "tiktok_followers",
-                questionnaires: "questionnaires",
-                members: "members",
+                questionnaires: "questionnaire_count",
+                members: "members_count",
             };
 
             Object.entries(statFields).forEach(([name, field]) => {
