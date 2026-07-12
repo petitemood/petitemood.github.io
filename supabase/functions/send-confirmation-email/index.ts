@@ -12,7 +12,7 @@ const corsHeaders = {
 };
 
 const resendApiKey = Deno.env.get("RESEND_API_KEY") || "";
-const emailFrom = Deno.env.get("EMAIL_FROM") || "Petite Mood <onboarding@resend.dev>";
+const emailFrom = Deno.env.get("EMAIL_FROM") || "Petite Mood <info@petitemood.com>";
 const internalNotificationEmail = Deno.env.get("INTERNAL_NOTIFICATION_EMAIL") || "";
 const allowedOrigins = (Deno.env.get("ALLOWED_ORIGINS") || "https://petitemood.it,https://www.petitemood.it")
   .split(",")

@@ -105,7 +105,7 @@ La pagina `privacy.html` è una base operativa completa, ma prima di raccogliere
 dati reali verificate:
 
 - i dati identificativi del titolare;
-- che `info@petitemood.it` riceva correttamente le richieste;
+- che `info@petitemood.com` riceva correttamente le richieste;
 - la regione europea scelta su Supabase;
 - l'accordo sul trattamento dati disponibile nell'account Supabase;
 - la procedura con cui gestirete cancellazioni e disiscrizioni.
