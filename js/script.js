@@ -174,10 +174,31 @@ document.addEventListener("DOMContentLoaded", () => {
             if (!response.ok) return;
             const stats = await response.json();
 
-            ["questionnaires", "members"].forEach((name) => {
+            if (!("instagram_followers" in stats) || !("tiktok_followers" in stats)) {
+                const socialResponse = await supabaseRequest(
+                    "/rest/v1/site_stats?select=instagram_followers,tiktok_followers&id=eq.1"
+                );
+                if (socialResponse.ok) {
+                    const [socialStats] = await socialResponse.json();
+                    Object.assign(stats, socialStats || {});
+                }
+            }
+
+            const statFields = {
+                instagram: "instagram_followers",
+                tiktok: "tiktok_followers",
+                questionnaires: "questionnaires",
+                members: "members",
+            };
+
+            Object.entries(statFields).forEach(([name, field]) => {
                 const element = document.querySelector(`[data-stat="${name}"]`);
-                const value = Number(stats[name]);
-                if (element && Number.isFinite(value)) element.textContent = String(value);
+                const value = Number(stats[field]);
+                if (element && Number.isFinite(value)) {
+                    element.textContent = name === "instagram" || name === "tiktok"
+                        ? `${value}+`
+                        : String(value);
+                }
             });
         } catch (error) {
             console.warn("Contatori Petite Mood non disponibili:", error);
