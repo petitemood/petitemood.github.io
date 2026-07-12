@@ -50,34 +50,73 @@ const buildUserEmail = (kind: EmailKind, firstName = "") => {
   if (kind === "questionnaire") {
     const text = `${greeting}
 
-grazie per aver dedicato qualche minuto al questionario di Petite Mood.
+grazie per aver compilato il questionario di Petite Mood! ✨
 
-Le tue risposte sono preziose perche ci aiutano a capire meglio le difficolta reali delle ragazze petite e a creare capi piu adatti alle vostre proporzioni.
+Il tuo contributo è davvero prezioso: ogni risposta ci aiuta a comprendere meglio i bisogni reali delle ragazze petite e ci avvicina al nostro obiettivo più importante — creare qualcosa di pensato davvero per chi è sotto i 160 cm.
 
-Stiamo costruendo Petite Mood insieme alla community, passo dopo passo.
+💌 Una community autentica
+Stiamo costruendo uno spazio fatto di ascolto, idee, consigli e confronto reale.
+
+👗 Un futuro brand costruito insieme
+Le tue risposte ci aiuteranno a capire quali capi creare e quali problemi di vestibilità risolvere davvero.
+
+🌷 La tua voce conta
+Non vogliamo decidere tutto da soli. Vogliamo che Petite Mood cresca insieme alle persone che lo vivranno.
+
+Hai una proposta, un suggerimento o qualcosa che vorresti trovare in Petite Mood? Scrivici quando vuoi a info@petitemood.com. Leggiamo con attenzione ogni messaggio: le tue idee sono sempre benvenute. 💖
+
+Se hai scelto di entrare nella community, da oggi sei ufficialmente una delle prime Petite Members del progetto. Che bello averti con noi!
 
 A presto,
-Petite Mood`;
+
+Antonio Pio e Federica
+Petite Mood
+La community italiana dedicata alle ragazze sotto i 160 cm
+
+Instagram: https://instagram.com/petitemood.it
+TikTok: https://www.tiktok.com/@petitemood.it
+Email: info@petitemood.com`;
 
     return {
-      subject: "Grazie per aver compilato il questionario Petite Mood",
+      subject: "Grazie per aver condiviso la tua esperienza 💖",
       text,
       html: plainToHtml(text),
     };
   }
 
-  const text = `${greeting}
+  const text = `Ciao,
 
-grazie per esserti iscritta alla newsletter di Petite Mood.
+grazie per esserti iscritta alla newsletter di Petite Mood! 🌷
 
-Da oggi fai parte della nostra community dedicata alle ragazze petite.
+Questo non è soltanto un aggiornamento in più nella tua casella email: è l’inizio di un progetto che vogliamo costruire mettendo al centro te, le tue proporzioni, le tue difficoltà e il tuo modo di vivere la moda.
 
-Stiamo creando qualcosa pensato davvero per chi e sotto 1,60 m: consigli, ispirazioni, capi con proporzioni giuste e tante novita.
+Da oggi riceverai:
 
-Ti terremo aggiornata sui prossimi passi.
+✨ consigli pratici pensati per valorizzare le proporzioni petite;
 
-Con affetto,
-Petite Mood`;
+👗 guide su taglie, vestibilità e lunghezze;
+
+💌 novità e progressi del progetto Petite Mood;
+
+🌸 anteprime, sondaggi e occasioni per far sentire la tua voce;
+
+🧵 aggiornamenti sul percorso verso la nostra prima collezione.
+
+Ti scriveremo soltanto quando avremo qualcosa di interessante e utile da condividere. Niente rumore e niente email inutili.
+
+Anche la tua opinione può aiutarci a costruire Petite Mood. Se hai una proposta, un suggerimento, un problema di vestibilità da raccontarci o un contenuto che vorresti ricevere, scrivici a info@petitemood.com. Ogni idea è benvenuta e sarà letta con attenzione. 💖
+
+Siamo davvero felici di averti nella community. Petite Mood nasce per ascoltare ragazze come te e creare, passo dopo passo, qualcosa che finora è mancato.
+
+A presto,
+
+Antonio Pio e Federica
+Petite Mood
+La community italiana dedicata alle ragazze sotto i 160 cm
+
+Instagram: https://instagram.com/petitemood.it
+TikTok: https://www.tiktok.com/@petitemood.it
+Email: info@petitemood.com`;
 
   return {
     subject: "Benvenuta in Petite Mood",
