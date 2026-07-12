@@ -74,7 +74,10 @@ document.addEventListener("DOMContentLoaded", () => {
         budget_trousers: getValue("budget_trousers") || null,
         purchase_intent: Number(getValue("purchase_intent")),
         discovery_channels: checkedValues("discovery_channels"),
-        feedback: getValue("feedback") || null,
+        feedback: [
+            getValue("shoe_size") ? `Numero scarpe EU: ${getValue("shoe_size")}` : "",
+            getValue("feedback"),
+        ].filter(Boolean).join("\n\n").slice(0, 1000) || null,
         first_name: getValue("first_name") || null,
         email: getValue("email").toLowerCase() || null,
         join_members: checkedValues("join_members").includes("true"),
