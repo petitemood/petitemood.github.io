@@ -147,6 +147,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const supabaseUrl = String(petiteConfig.supabaseUrl || "").replace(/\/+$/, "");
     const supabaseKey = String(petiteConfig.supabasePublishableKey || "");
     const databaseReady = supabaseUrl.startsWith("https://") && supabaseKey.length > 20;
+    const emailFunctionUrl = `${supabaseUrl}/functions/v1/send-confirmation-email`;
 
     const supabaseRequest = async (path, options = {}) => {
         if (!databaseReady) throw new Error("database_not_configured");
@@ -229,6 +230,23 @@ document.addEventListener("DOMContentLoaded", () => {
                 });
 
                 if (!response.ok) throw new Error(`newsletter_${response.status}`);
+
+                const emailResponse = await fetch(emailFunctionUrl, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "apikey": supabaseKey,
+                        "Authorization": `Bearer ${supabaseKey}`,
+                    },
+                    body: JSON.stringify({
+                        kind: "newsletter",
+                        email,
+                    }),
+                });
+
+                if (!emailResponse.ok) {
+                    console.warn("Petite Mood newsletter: email di benvenuto non disponibile.");
+                }
 
                 newsletterForm.reset();
                 newsletterStatus.textContent =
