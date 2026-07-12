@@ -1,27 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-    <url>
-        <loc>https://petitemood.it/</loc>
-        <lastmod>2026-07-09</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>1.0</priority>
-    </url>
-    <url>
-        <loc>https://petitemood.it/questionario.html</loc>
-        <lastmod>2026-07-09</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.9</priority>
-    </url>
-    <url>
-        <loc>https://petitemood.it/grazie.html</loc>
-        <lastmod>2026-07-09</lastmod>
-        <changefreq>yearly</changefreq>
-        <priority>0.2</priority>
-    </url>
-    <url>
-        <loc>https://petitemood.it/privacy.html</loc>
-        <lastmod>2026-07-09</lastmod>
-        <changefreq>yearly</changefreq>
-        <priority>0.3</priority>
-    </url>
+<url><loc>https://petitemood.it/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>
+<url><loc>https://petitemood.it/guide.html</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+<url><loc>https://petitemood.it/cosa-significa-taglia-petite.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+<url><loc>https://petitemood.it/come-vestirsi-sotto-160-cm.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+<url><loc>https://petitemood.it/differenza-xs-taglia-petite.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+<url><loc>https://petitemood.it/dove-trovare-jeans-petite.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+<url><loc>https://petitemood.it/lunghezza-pantaloni-petite.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+<url><loc>https://petitemood.it/pantaloni-palazzo-ragazze-basse.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+<url><loc>https://petitemood.it/abiti-lunghi-donne-petite.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+<url><loc>https://petitemood.it/migliori-brand-petite.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+<url><loc>https://petitemood.it/tabella-misure-petite.html</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+<url><loc>https://petitemood.it/petite-club.html</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+<url><loc>https://petitemood.it/diario.html</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+<url><loc>https://petitemood.it/faq.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+<url><loc>https://petitemood.it/questionario.html</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+<url><loc>https://petitemood.it/privacy.html</loc><changefreq>yearly</changefreq><priority>0.3</priority></url>
 </urlset>
