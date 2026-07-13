@@ -1,6 +1,26 @@
 /* PETITE MOOD - ANALYTICS CON CONSENSO PREVENTIVO */
 
 document.addEventListener("DOMContentLoaded", () => {
+    const isEnglish = document.documentElement.lang.toLowerCase().startsWith("en");
+    const copy = isEnglish
+        ? {
+              label: "Analytics preferences",
+              title: "May we collect anonymous statistics?",
+              text: "They help us improve Petite Mood. Analytics are activated only if you choose ‘Accept’.",
+              more: "Learn more",
+              reject: "Reject",
+              accept: "Accept",
+              privacy: "privacy.html",
+          }
+        : {
+              label: "Preferenze statistiche",
+              title: "Possiamo raccogliere statistiche anonime?",
+              text: "Ci aiutano a migliorare Petite Mood. I dati statistici vengono attivati soltanto se scegli ‘Accetta’.",
+              more: "Scopri di più",
+              reject: "Rifiuta",
+              accept: "Accetta",
+              privacy: "privacy.html",
+          };
     const measurementId = String(
         (window.PETITE_MOOD_CONFIG || {}).googleAnalyticsId || ""
     ).trim();
@@ -43,19 +63,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const banner = document.createElement("aside");
     banner.className = "cookie-banner";
-    banner.setAttribute("aria-label", "Preferenze statistiche");
+    banner.setAttribute("aria-label", copy.label);
     banner.innerHTML = `
         <div>
-            <strong>Possiamo raccogliere statistiche anonime?</strong>
+            <strong>${copy.title}</strong>
             <p>
-                Ci aiutano a migliorare Petite Mood. I dati statistici vengono
-                attivati soltanto se scegli “Accetta”.
-                <a href="privacy.html">Scopri di più</a>.
+                ${copy.text}
+                <a href="${copy.privacy}">${copy.more}</a>.
             </p>
         </div>
         <div class="cookie-actions">
-            <button type="button" data-cookie-choice="rejected">Rifiuta</button>
-            <button type="button" class="cookie-accept" data-cookie-choice="accepted">Accetta</button>
+            <button type="button" data-cookie-choice="rejected">${copy.reject}</button>
+            <button type="button" class="cookie-accept" data-cookie-choice="accepted">${copy.accept}</button>
         </div>
     `;
     document.body.appendChild(banner);
