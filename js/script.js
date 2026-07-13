@@ -288,5 +288,58 @@ document.addEventListener("DOMContentLoaded", () => {
         if (eventName) window.gtag("event", eventName, { link_url: href });
     });
 
+    /* Condivisione nativa delle guide, senza profili social inventati. */
+    const articleBody = document.querySelector(".article-body");
+    if (articleBody && !articleBody.querySelector("[data-guide-share]")) {
+        const isEnglish = document.documentElement.lang.toLowerCase().startsWith("en");
+        const canonical = document.querySelector('link[rel="canonical"]');
+        const shareUrl = canonical ? canonical.href : window.location.href;
+        const description = document.querySelector('meta[name="description"]');
+        const shareBox = document.createElement("aside");
+        shareBox.className = "guide-share-box";
+        shareBox.setAttribute("data-guide-share", "");
+        shareBox.innerHTML = `
+            <div>
+                <strong>${isEnglish ? "Was this guide useful?" : "Questa guida ti è stata utile?"}</strong>
+                <p>${isEnglish ? "Share it with someone who might need it." : "Condividila con un'amica a cui potrebbe servire."}</p>
+            </div>
+            <button class="btn-primary" type="button">
+                ${isEnglish ? "Share this guide" : "Condividi la guida"}
+            </button>
+            <p class="guide-share-status" role="status" aria-live="polite"></p>
+        `;
+        articleBody.appendChild(shareBox);
+
+        const button = shareBox.querySelector("button");
+        const status = shareBox.querySelector(".guide-share-status");
+        button.addEventListener("click", async () => {
+            let method = "copy";
+            try {
+                if (navigator.share) {
+                    method = "native";
+                    await navigator.share({
+                        title: document.title,
+                        text: description ? description.content : "",
+                        url: shareUrl,
+                    });
+                    status.textContent = isEnglish ? "Thank you for sharing!" : "Grazie per averla condivisa!";
+                } else if (navigator.clipboard) {
+                    await navigator.clipboard.writeText(shareUrl);
+                    status.textContent = isEnglish ? "Link copied!" : "Link copiato!";
+                } else {
+                    window.prompt(isEnglish ? "Copy this link" : "Copia questo link", shareUrl);
+                    status.textContent = isEnglish ? "The link is ready to copy." : "Il link è pronto da copiare.";
+                }
+                if (typeof window.gtag === "function") {
+                    window.gtag("event", "guide_share", { share_method: method });
+                }
+            } catch (error) {
+                if (error && error.name !== "AbortError") {
+                    status.textContent = isEnglish ? "Please try again." : "Riprova tra poco.";
+                }
+            }
+        });
+    }
+
     console.log("✅ Petite Mood 3.0 caricato");
 });

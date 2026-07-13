@@ -1443,3 +1443,11 @@ cursor:pointer;
 .poll-option.is-selected:disabled{opacity:1}
 .poll-message{margin:4px 0 0;padding:13px 15px;border-radius:14px;color:var(--primary-dark)!important;background:var(--primary-light);font-weight:700}
 .diary-card .btn-secondary{display:inline-block;margin-top:8px;padding:12px 18px}
+
+/* CONDIVISIONE GUIDE */
+.guide-share-box{display:grid;grid-template-columns:1fr auto;align-items:center;gap:10px 24px;margin-top:48px;padding:28px;border:1px solid rgba(231,56,124,.15);border-radius:22px;background:linear-gradient(135deg,#fff8fb,#ffeaf2)}
+.guide-share-box strong{display:block;margin-bottom:5px;font-size:1.15rem}
+.guide-share-box p{margin:0}
+.guide-share-box .btn-primary{border:0;cursor:pointer}
+.guide-share-status{grid-column:1/-1;min-height:1.4em;color:var(--primary-dark)!important;font-weight:700}
+@media(max-width:620px){.guide-share-box{grid-template-columns:1fr;padding:22px}.guide-share-box .btn-primary{width:100%}.guide-share-status{grid-column:1}}
