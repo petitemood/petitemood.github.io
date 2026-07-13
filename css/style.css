@@ -1391,3 +1391,13 @@ cursor:pointer;
 .trust-placeholder{border:2px dashed #efb4cc;border-radius:var(--radius);padding:40px;text-align:center;color:var(--text-light)}
 @media(max-width:900px){.guide-grid,.card-grid{grid-template-columns:1fr 1fr}.page-hero{padding-top:145px}.article-body h2{font-size:30px}}
 @media(max-width:620px){.guide-grid,.card-grid{grid-template-columns:1fr}.content-section{padding:65px 0}.page-hero p{font-size:17px}.inline-cta{padding:28px 20px}}
+
+/* SONDAGGIO DIARIO */
+.diary-poll{display:grid;gap:11px;margin:22px 0 18px}
+.poll-option{width:100%;min-height:48px;padding:12px 16px;border:1px solid #efb4cc;border-radius:14px;color:var(--primary-dark);background:#fff;text-align:left;font:inherit;font-weight:700;cursor:pointer;transition:.2s ease}
+.poll-option:hover,.poll-option:focus-visible{border-color:var(--primary);background:var(--primary-light);transform:translateY(-1px)}
+.poll-option.is-selected{border-color:var(--primary);color:#fff;background:var(--primary)}
+.poll-option:disabled{cursor:default;opacity:.62;transform:none}
+.poll-option.is-selected:disabled{opacity:1}
+.poll-message{margin:4px 0 0;padding:13px 15px;border-radius:14px;color:var(--primary-dark)!important;background:var(--primary-light);font-weight:700}
+.diary-card .btn-secondary{display:inline-block;margin-top:8px;padding:12px 18px}
