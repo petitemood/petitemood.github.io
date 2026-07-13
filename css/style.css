@@ -833,6 +833,42 @@ box-shadow:0 10px 25px rgba(0,0,0,.05);
 
 }
 
+/* ===================================================
+   SONDAGGIO DELLA SETTIMANA
+=================================================== */
+
+.weekly-poll{
+padding:105px 0;
+background:#FFF9FC;
+}
+
+.weekly-poll-box{
+max-width:950px;
+margin:auto;
+padding:58px 70px;
+border:1px solid rgba(231,56,124,.14);
+border-radius:34px;
+background:radial-gradient(circle at 100% 0%,rgba(231,56,124,.14),transparent 34%),linear-gradient(135deg,#fff,#fff0f6);
+box-shadow:var(--shadow);
+text-align:center;
+}
+
+.weekly-poll-box span{
+display:inline-block;
+margin-bottom:22px;
+padding:9px 19px;
+border-radius:50px;
+color:var(--primary);
+background:white;
+font-size:.82rem;
+font-weight:800;
+letter-spacing:.06em;
+}
+
+.weekly-poll-box h2{margin-bottom:20px;font-size:clamp(2.2rem,4.5vw,3.15rem);line-height:1.15;}
+.weekly-poll-box p{max-width:700px;margin:0 auto 32px;color:var(--text-light);font-size:1.12rem;line-height:1.75;}
+.weekly-poll-box .btn-primary{display:inline-block;}
+
 
 /* ===================================================
    INSTAGRAM
@@ -1391,6 +1427,12 @@ cursor:pointer;
 .trust-placeholder{border:2px dashed #efb4cc;border-radius:var(--radius);padding:40px;text-align:center;color:var(--text-light)}
 @media(max-width:900px){.guide-grid,.card-grid{grid-template-columns:1fr 1fr}.page-hero{padding-top:145px}.article-body h2{font-size:30px}}
 @media(max-width:620px){.guide-grid,.card-grid{grid-template-columns:1fr}.content-section{padding:65px 0}.page-hero p{font-size:17px}.inline-cta{padding:28px 20px}}
+
+@media(max-width:620px){
+.weekly-poll{padding:70px 0;}
+.weekly-poll-box{padding:42px 22px;}
+.weekly-poll-box .btn-primary{width:100%;}
+}
 
 /* SONDAGGIO DIARIO */
 .diary-poll{display:grid;gap:11px;margin:22px 0 18px}
