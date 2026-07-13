@@ -1125,7 +1125,7 @@ background:radial-gradient(circle at 86% 20%,rgba(231,56,124,.14),transparent 31
 .language-picker-home a{display:flex;align-items:center;gap:8px;padding:10px 15px;border-radius:999px;color:var(--text);font-size:.9rem;font-weight:700;text-decoration:none;transition:background .2s ease,color .2s ease,transform .2s ease}
 .language-picker-home a:hover{background:var(--primary-light);color:var(--primary-dark);transform:translateY(-1px)}
 .language-picker-home a[aria-current="page"]{background:var(--primary);color:#fff}
-.language-picker-home span{font-size:1.15rem;line-height:1}
+.language-picker-home img{width:25px;height:17px;object-fit:cover;border-radius:3px;box-shadow:0 0 0 1px rgba(45,45,45,.1)}
 
 .hero::before{z-index:-1;}
 .hero-grid{grid-template-columns:minmax(0,1.08fr) minmax(360px,.92fr);gap:clamp(50px,7vw,92px);}
