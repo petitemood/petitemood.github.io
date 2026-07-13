@@ -9,6 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const menuToggle = document.getElementById("menu-toggle");
     const sections = document.querySelectorAll("section");
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const isEnglish = document.documentElement.lang.toLowerCase().startsWith("en");
 
     /* HEADER DINAMICO */
 
@@ -74,7 +75,10 @@ document.addEventListener("DOMContentLoaded", () => {
     if (menuToggle && nav) {
         menuToggle.setAttribute("role", "button");
         menuToggle.setAttribute("tabindex", "0");
-        menuToggle.setAttribute("aria-label", "Apri o chiudi il menu");
+        menuToggle.setAttribute(
+            "aria-label",
+            isEnglish ? "Open or close menu" : "Apri o chiudi il menu"
+        );
         menuToggle.setAttribute("aria-controls", "main-navigation");
         menuToggle.setAttribute("aria-expanded", "false");
         nav.id = nav.id || "main-navigation";
