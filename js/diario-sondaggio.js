@@ -2,7 +2,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const poll = document.querySelector("[data-diary-poll]");
     if (!poll) return;
 
-    const storageKey = "petiteMoodDiaryPollV1";
+    const isEnglish = document.documentElement.lang.toLowerCase().startsWith("en");
+    const storageKey = isEnglish
+        ? "petiteMoodDiaryPollV1_en"
+        : "petiteMoodDiaryPollV1";
     const buttons = Array.from(poll.querySelectorAll("[data-poll-choice]"));
     const message = poll.querySelector("[data-poll-message]");
 
@@ -41,7 +44,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
             showVote(choice);
             if (typeof window.gtag === "function") {
-                window.gtag("event", `diary_poll_${choice}`);
+                const eventName = isEnglish
+                    ? `diary_poll_en_${choice}`
+                    : `diary_poll_${choice}`;
+                window.gtag("event", eventName);
             }
         });
     });
