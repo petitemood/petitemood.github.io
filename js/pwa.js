@@ -5,7 +5,7 @@
   const isStandalone = () =>
     window.matchMedia("(display-mode: standalone)").matches || window.navigator.standalone === true;
 
-  window.PetiteMoodPWA = Object.freeze({ isStandalone });
+  window.PetiteMoodPWA = { isStandalone };
 
   const safeStorage = {
     get(key) { try { return localStorage.getItem(key); } catch (_) { return null; } },
