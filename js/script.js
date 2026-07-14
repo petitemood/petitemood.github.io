@@ -73,6 +73,8 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     if (menuToggle && nav) {
+        /* Icona unica su tutte le pagine, indipendente dalla codifica HTML. */
+        menuToggle.innerHTML = '<span class="menu-toggle-icon" aria-hidden="true"><span></span><span></span><span></span></span>';
         menuToggle.setAttribute("role", "button");
         menuToggle.setAttribute("tabindex", "0");
         menuToggle.setAttribute(
