@@ -103,7 +103,8 @@
               <span class="pwa-device-icon" aria-hidden="true">🤖</span>
               <h3>Hai Android?</h3>
               <p>Apri Petite Mood con Chrome, Samsung Internet o Edge e premi il pulsante qui sotto.</p>
-              <button type="button" class="pwa-install-button" hidden>Scarica l’app Petite Mood</button>
+              <button type="button" class="pwa-install-button">Scarica l’app Petite Mood</button>
+              <p class="pwa-install-help" role="status" aria-live="polite" hidden></p>
               <small>Se il pulsante non compare, premi il menu <strong>⋮</strong> del browser e scegli <strong>Installa app</strong> oppure <strong>Aggiungi a schermata Home</strong>.</small>
             </article>
             <article class="pwa-download-card pwa-apple-card">
@@ -125,18 +126,30 @@
       deferredPrompt = event;
       if (!installBox) return;
       const installButton = installBox.querySelector(".pwa-install-button");
-      if (installButton) installButton.hidden = false;
+      if (installButton) installButton.dataset.installReady = "true";
       track("install_button_shown", "petiteMoodInstallButtonShownV1");
     });
 
     if (installBox) installBox.querySelector(".pwa-install-button").addEventListener("click", async () => {
-      if (!deferredPrompt) return;
       track("install_button_clicked");
+      if (!deferredPrompt) {
+        const help = installBox.querySelector(".pwa-install-help");
+        const isAppleDevice = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+        help.textContent = isAppleDevice
+          ? "Su iPhone o iPad: apri Petite Mood in Safari, premi Condividi e scegli Aggiungi alla schermata Home."
+          : "Se non si apre la finestra automatica, premi il menu ⋮ del browser e scegli Installa app oppure Aggiungi a schermata Home.";
+        help.hidden = false;
+        const targetCard = isAppleDevice
+          ? installBox.querySelector(".pwa-apple-card")
+          : installBox.querySelector(".pwa-android-card");
+        if (targetCard) targetCard.scrollIntoView({ behavior: "smooth", block: "center" });
+        return;
+      }
       deferredPrompt.prompt();
       const choice = await deferredPrompt.userChoice;
       track(choice.outcome === "accepted" ? "install_accepted" : "install_dismissed");
       deferredPrompt = null;
-      installBox.querySelector(".pwa-install-button").hidden = true;
+      installBox.querySelector(".pwa-install-button").removeAttribute("data-install-ready");
     });
 
     window.addEventListener("appinstalled", () => {
