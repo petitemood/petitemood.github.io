@@ -1,10 +1,10 @@
 /* Petite Mood PWA - cache minima, contenuti sempre aggiornati */
-const VERSION = "petite-mood-v2";
+const VERSION = "petite-mood-v3";
 const STATIC_CACHE = `${VERSION}-static`;
 const ESSENTIALS = [
   "/offline.html",
-  "/images/pwa/icon-192.png",
-  "/images/pwa/icon-512.png",
+  "/images/pwa/petite-mood-logo-192.png",
+  "/images/pwa/petite-mood-logo-512.png",
   "/images/favicon.svg"
 ];
 

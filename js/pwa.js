@@ -85,6 +85,7 @@
     if (isHome && !installed) {
       installBox = document.createElement("section");
       installBox.className = "pwa-download-section";
+      installBox.id = "scarica-app";
       installBox.setAttribute("aria-label", "Installa Petite Mood");
       installBox.innerHTML = `
         <div class="pwa-download-inner">
@@ -109,7 +110,12 @@
               <small>Se il pulsante non compare, premi il menu <strong>⋮</strong> del browser e scegli <strong>Installa app</strong> oppure <strong>Aggiungi a schermata Home</strong>.</small>
             </article>
             <article class="pwa-download-card pwa-apple-card">
-              <span class="pwa-device-icon" aria-hidden="true"></span>
+              <span class="pwa-device-icon pwa-apple-icon" aria-hidden="true">
+                <svg viewBox="0 0 64 64" focusable="false">
+                  <path d="M38.5 13.5c3.1-3.7 2.8-7 2.7-8.2-3 .2-6.5 2.1-8.5 4.5-1.8 2-3.3 5-3 8 3.3.3 6.5-1.5 8.8-4.3Z"/>
+                  <path d="M49.5 34.2c0-7 5.8-10.4 6.1-10.6-3.3-4.8-8.4-5.4-10.2-5.5-4.3-.5-8.4 2.6-10.6 2.6-2.3 0-5.7-2.5-9.4-2.4-4.8.1-9.3 2.9-11.8 7.2-5.1 8.8-1.3 21.8 3.6 28.9 2.4 3.5 5.3 7.4 9.1 7.3 3.6-.2 5-2.4 9.4-2.4 4.3 0 5.6 2.4 9.4 2.3 3.9-.1 6.4-3.5 8.8-7 2.8-4 3.9-7.9 4-8.1-.1 0-8.4-3.2-8.4-12.3Z"/>
+                </svg>
+              </span>
               <h3>Hai un iPhone o iPad?</h3>
               <p>Con Apple bastano tre semplici passaggi per avere Petite Mood tra le tue app.</p>
               <ol><li>Apri Safari</li><li>Premi Condividi</li><li>Scegli “Aggiungi alla schermata Home”</li></ol>

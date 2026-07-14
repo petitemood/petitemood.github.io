@@ -1267,6 +1267,8 @@ nav.active{display:flex;}
 nav a{width:100%;padding:12px 14px;border-radius:12px;font-size:.96rem;}
 nav a::after{display:none;}
 nav a:hover{background:var(--primary-light);}
+nav .nav-app-link{color:#fff;background:var(--primary);font-weight:800}
+nav .nav-app-link:hover{color:#fff;background:var(--primary-dark)}
 }
 
 /* ===================================================
