@@ -94,7 +94,7 @@
             <ul class="pwa-benefits" aria-label="Vantaggi dell'app Petite Mood">
               <li>Accesso veloce dalla schermata Home</li>
               <li>Esperienza a tutto schermo, proprio come un’app</li>
-              <li>Nessun App Store e nessun costo</li>
+              <li>Gratuita</li>
               <li>Guide e novità sempre aggiornate</li>
             </ul>
           </div>
