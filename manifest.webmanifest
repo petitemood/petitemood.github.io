@@ -1,0 +1,19 @@
+{
+  "id": "/",
+  "name": "Petite Mood",
+  "short_name": "Petite Mood",
+  "description": "Guide, community e strumenti dedicati alle ragazze petite.",
+  "lang": "it-IT",
+  "start_url": "/?source=pwa",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#fff4f8",
+  "theme_color": "#e7387c",
+  "icons": [
+    { "src": "/images/pwa/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/images/pwa/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/images/pwa/icon-maskable-192.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable" },
+    { "src": "/images/pwa/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

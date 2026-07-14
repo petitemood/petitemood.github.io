@@ -18,6 +18,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const storageKey = "petiteMoodSurveyDraftV1";
     let currentStep = 0;
     let isSubmitting = false;
+    const openedFromPwa = Boolean(window.PetiteMoodPWA && window.PetiteMoodPWA.isStandalone());
+    if (openedFromPwa) {
+        window.PetiteMoodPWA.track("questionnaire_started_from_pwa", "petiteMoodQuestionnaireStartedFromPwaV1");
+    }
 
     if (!steps.length || !previousButton || !nextButton || !submitButton || !progressBar || !progressPercent || !stepLabel || !formAlert) {
         console.error("Petite Mood survey: elementi del questionario mancanti.");
@@ -286,6 +290,10 @@ document.addEventListener("DOMContentLoaded", () => {
             });
 
             if (!response.ok) throw new Error(`Invio non riuscito (${response.status})`);
+
+            if (openedFromPwa) {
+                window.PetiteMoodPWA.track("questionnaire_completed_from_pwa");
+            }
 
             await sendConfirmationEmail(payload);
             sessionStorage.removeItem(storageKey);
