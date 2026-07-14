@@ -78,7 +78,8 @@
 
     let deferredPrompt = null;
     const isHome = /\/(?:index\.html)?$/.test(location.pathname);
-    const installed = standalone || safeStorage.get("petiteMoodPwaInstalledV1") === "1";
+    /* Nel browser la promozione resta sempre visibile, anche dopo una precedente installazione. */
+    const installed = standalone;
     let installBox = null;
 
     if (isHome && !installed) {
