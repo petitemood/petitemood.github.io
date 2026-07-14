@@ -82,37 +82,61 @@
     let installBox = null;
 
     if (isHome && !installed) {
-      installBox = document.createElement("aside");
-      installBox.className = "pwa-install-box";
-      installBox.hidden = true;
+      installBox = document.createElement("section");
+      installBox.className = "pwa-download-section";
       installBox.setAttribute("aria-label", "Installa Petite Mood");
-      installBox.innerHTML = `<div><strong>Porta Petite Mood sempre con te.</strong><p>Installala gratuitamente sul tuo telefono.</p></div><button type="button" class="pwa-install-button">Installa Petite Mood</button>`;
+      installBox.innerHTML = `
+        <div class="pwa-download-inner">
+          <div class="pwa-download-heading">
+            <span class="pwa-download-kicker">PETITE MOOD APP</span>
+            <h2>Porta Petite Mood sempre con te</h2>
+            <p>Installala gratuitamente sul telefono: si apre a tutto schermo come un’app, ma il sito continua a funzionare normalmente.</p>
+          </div>
+          <div class="pwa-download-grid">
+            <article class="pwa-download-card pwa-android-card">
+              <span class="pwa-device-icon" aria-hidden="true">🤖</span>
+              <h3>Android</h3>
+              <p>Apri Petite Mood con Chrome, Samsung Internet o Edge e premi il pulsante qui sotto.</p>
+              <button type="button" class="pwa-install-button" hidden>Installa Petite Mood</button>
+              <small>Se il pulsante non compare, apri il menu del browser e scegli <strong>Installa app</strong> o <strong>Aggiungi a schermata Home</strong>.</small>
+            </article>
+            <article class="pwa-download-card pwa-apple-card">
+              <span class="pwa-device-icon" aria-hidden="true"></span>
+              <h3>iPhone e iPad</h3>
+              <p>Apri il sito con Safari, premi <strong>Condividi</strong> e poi <strong>Aggiungi alla schermata Home</strong>.</p>
+              <ol><li>Apri Safari</li><li>Premi Condividi</li><li>Scegli “Aggiungi alla schermata Home”</li></ol>
+            </article>
+          </div>
+        </div>`;
       const main = document.querySelector("main") || document.body;
-      main.insertAdjacentElement("afterbegin", installBox);
+      const hero = document.querySelector(".hero");
+      if (hero) hero.insertAdjacentElement("afterend", installBox);
+      else main.insertAdjacentElement("afterbegin", installBox);
     }
 
     window.addEventListener("beforeinstallprompt", (event) => {
       event.preventDefault();
       deferredPrompt = event;
       if (!installBox) return;
-      installBox.hidden = false;
+      const installButton = installBox.querySelector(".pwa-install-button");
+      if (installButton) installButton.hidden = false;
       track("install_button_shown", "petiteMoodInstallButtonShownV1");
     });
 
-    if (installBox) installBox.querySelector("button").addEventListener("click", async () => {
+    if (installBox) installBox.querySelector(".pwa-install-button").addEventListener("click", async () => {
       if (!deferredPrompt) return;
       track("install_button_clicked");
       deferredPrompt.prompt();
       const choice = await deferredPrompt.userChoice;
       track(choice.outcome === "accepted" ? "install_accepted" : "install_dismissed");
       deferredPrompt = null;
-      installBox.hidden = true;
+      installBox.querySelector(".pwa-install-button").hidden = true;
     });
 
     window.addEventListener("appinstalled", () => {
       safeStorage.set("petiteMoodPwaInstalledV1", "1");
       track("install_confirmed", "petiteMoodInstallConfirmedV1");
-      if (installBox) installBox.hidden = true;
+      if (installBox) installBox.remove();
     });
 
     const isiOSSafari = /iPhone|iPad|iPod/i.test(navigator.userAgent) && /Safari/i.test(navigator.userAgent) && !/CriOS|FxiOS|EdgiOS/i.test(navigator.userAgent);

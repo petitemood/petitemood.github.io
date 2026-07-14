@@ -1,5 +1,5 @@
 /* Petite Mood PWA - cache minima, contenuti sempre aggiornati */
-const VERSION = "petite-mood-v1";
+const VERSION = "petite-mood-v2";
 const STATIC_CACHE = `${VERSION}-static`;
 const ESSENTIALS = [
   "/offline.html",
