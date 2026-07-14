@@ -88,22 +88,28 @@
       installBox.innerHTML = `
         <div class="pwa-download-inner">
           <div class="pwa-download-heading">
-            <span class="pwa-download-kicker">PETITE MOOD APP</span>
-            <h2>Porta Petite Mood sempre con te</h2>
-            <p>Installala gratuitamente sul telefono: si apre a tutto schermo come un’app, ma il sito continua a funzionare normalmente.</p>
+            <span class="pwa-download-kicker">UN MESSAGGIO PER LE NOSTRE PETITE GIRL 💗</span>
+            <h2>Lo sapevi che puoi scaricare l’app Petite Mood?</h2>
+            <p>Aggiungila gratuitamente al tuo telefono e porta il mondo Petite Mood sempre con te, senza cercare ogni volta il sito.</p>
+            <ul class="pwa-benefits" aria-label="Vantaggi dell'app Petite Mood">
+              <li>Accesso veloce dalla schermata Home</li>
+              <li>Esperienza a tutto schermo, proprio come un’app</li>
+              <li>Nessun App Store e nessun costo</li>
+              <li>Guide e novità sempre aggiornate</li>
+            </ul>
           </div>
           <div class="pwa-download-grid">
             <article class="pwa-download-card pwa-android-card">
               <span class="pwa-device-icon" aria-hidden="true">🤖</span>
-              <h3>Android</h3>
+              <h3>Hai Android?</h3>
               <p>Apri Petite Mood con Chrome, Samsung Internet o Edge e premi il pulsante qui sotto.</p>
-              <button type="button" class="pwa-install-button" hidden>Installa Petite Mood</button>
-              <small>Se il pulsante non compare, apri il menu del browser e scegli <strong>Installa app</strong> o <strong>Aggiungi a schermata Home</strong>.</small>
+              <button type="button" class="pwa-install-button" hidden>Scarica l’app Petite Mood</button>
+              <small>Se il pulsante non compare, premi il menu <strong>⋮</strong> del browser e scegli <strong>Installa app</strong> oppure <strong>Aggiungi a schermata Home</strong>.</small>
             </article>
             <article class="pwa-download-card pwa-apple-card">
               <span class="pwa-device-icon" aria-hidden="true"></span>
-              <h3>iPhone e iPad</h3>
-              <p>Apri il sito con Safari, premi <strong>Condividi</strong> e poi <strong>Aggiungi alla schermata Home</strong>.</p>
+              <h3>Hai un iPhone o iPad?</h3>
+              <p>Con Apple bastano tre semplici passaggi per avere Petite Mood tra le tue app.</p>
               <ol><li>Apri Safari</li><li>Premi Condividi</li><li>Scegli “Aggiungi alla schermata Home”</li></ol>
             </article>
           </div>
