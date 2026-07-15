@@ -2,6 +2,18 @@
 
 document.addEventListener("DOMContentLoaded", () => {
     const isEnglish = document.documentElement.lang.toLowerCase().startsWith("en");
+    const language = isEnglish ? "en" : "it";
+    const pagePath = window.location.pathname.replace(/\/+$/, "") || "/";
+    const pageSlug = pagePath.split("/").filter(Boolean).pop() || "home";
+    const isGuide = Boolean(document.querySelector(".article-body"));
+    const pageType = isGuide
+        ? "guide"
+        : pageSlug === "home" || pageSlug === "index.html"
+          ? "homepage"
+          : pageSlug.replace(/\.html$/i, "").replace(/[^a-z0-9_-]/gi, "_");
+    const contentGroup = isGuide
+        ? `Guide ${language.toUpperCase()}`
+        : `Pagine ${language.toUpperCase()}`;
     const copy = isEnglish
         ? {
               label: "Analytics preferences",
@@ -30,6 +42,27 @@ document.addEventListener("DOMContentLoaded", () => {
     const consentKey = "petiteMoodAnalyticsConsentV1";
     let savedConsent = null;
 
+    const track = (eventName, parameters = {}) => {
+        if (typeof window.gtag !== "function") return false;
+        window.gtag("event", eventName, {
+            content_group: contentGroup,
+            content_language: language,
+            page_type: pageType,
+            ...parameters,
+        });
+        return true;
+    };
+
+    window.PetiteMoodAnalytics = {
+        track,
+        context: {
+            contentGroup,
+            language,
+            pageSlug: pageSlug.replace(/\.html$/i, ""),
+            pageType,
+        },
+    };
+
     try {
         savedConsent = localStorage.getItem(consentKey);
     } catch (_) {
@@ -46,7 +79,49 @@ document.addEventListener("DOMContentLoaded", () => {
         window.gtag("js", new Date());
         window.gtag("config", measurementId, {
             anonymize_ip: true,
+            content_group: contentGroup,
+            content_language: language,
+            page_type: pageType,
         });
+
+        if (isGuide) {
+            track("guide_view", {
+                guide_slug: pageSlug.replace(/\.html$/i, ""),
+                guide_title: document.querySelector("h1")?.textContent.trim() || document.title,
+            });
+        }
+        if (pageType === "404") {
+            track("page_not_found");
+        }
+
+        const reachedScrollDepths = new Set();
+        let scrollScheduled = false;
+        const measureScrollDepth = () => {
+            scrollScheduled = false;
+            const scrollableHeight = document.documentElement.scrollHeight - window.innerHeight;
+            if (scrollableHeight <= 0) return;
+
+            const percentage = Math.min(
+                100,
+                Math.round((window.scrollY / scrollableHeight) * 100)
+            );
+
+            [25, 50, 75].forEach((threshold) => {
+                if (percentage < threshold || reachedScrollDepths.has(threshold)) return;
+                reachedScrollDepths.add(threshold);
+                track("content_scroll", { percent_scrolled: threshold });
+            });
+        };
+
+        window.addEventListener(
+            "scroll",
+            () => {
+                if (scrollScheduled) return;
+                scrollScheduled = true;
+                window.requestAnimationFrame(measureScrollDepth);
+            },
+            { passive: true }
+        );
 
         const script = document.createElement("script");
         script.async = true;

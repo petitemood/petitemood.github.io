@@ -4,8 +4,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const isEnglish = document.documentElement.lang.toLowerCase().startsWith("en");
     const storageKey = isEnglish
-        ? "petiteMoodDiaryPollV1_en"
-        : "petiteMoodDiaryPollV1";
+        ? "petiteMoodDiaryPollV2_en"
+        : "petiteMoodDiaryPollV2";
     const buttons = Array.from(poll.querySelectorAll("[data-poll-choice]"));
     const message = poll.querySelector("[data-poll-message]");
 
@@ -43,11 +43,16 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
             showVote(choice);
-            if (typeof window.gtag === "function") {
-                const eventName = isEnglish
-                    ? `diary_poll_en_${choice}`
-                    : `diary_poll_${choice}`;
-                window.gtag("event", eventName);
+            if (window.PetiteMoodAnalytics?.track) {
+                window.PetiteMoodAnalytics.track("weekly_poll_vote", {
+                    poll_choice: choice,
+                    poll_language: isEnglish ? "en" : "it",
+                });
+            } else if (typeof window.gtag === "function") {
+                window.gtag("event", "weekly_poll_vote", {
+                    poll_choice: choice,
+                    poll_language: isEnglish ? "en" : "it",
+                });
             }
         });
     });

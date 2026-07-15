@@ -282,12 +282,37 @@ document.addEventListener("DOMContentLoaded", () => {
         if (!link || typeof window.gtag !== "function") return;
         const href = String(link.getAttribute("href") || "");
         let eventName = link.dataset.track || "";
-        if (!eventName && href.includes("questionario")) eventName = "questionnaire_click";
-        if (!eventName && href.includes("instagram.com")) eventName = "instagram_click";
-        if (!eventName && href.includes("tiktok.com")) eventName = "tiktok_click";
-        if (!eventName && href.includes("facebook.com")) eventName = "facebook_click";
+        let socialPlatform = "";
+        if (href.includes("instagram.com")) socialPlatform = "instagram";
+        if (href.includes("tiktok.com")) socialPlatform = "tiktok";
+        if (href.includes("facebook.com")) socialPlatform = "facebook";
+        if (eventName === "weekly_poll_click" || eventName === "weekly_poll_en_click") {
+            eventName = "weekly_poll_open";
+        }
+        if (!eventName && href.includes("questionario")) eventName = "questionnaire_start_click";
+        if (!eventName && socialPlatform) eventName = "social_follow_click";
         if (!eventName && href.endsWith(".pdf")) eventName = "free_guide_download";
-        if (eventName) window.gtag("event", eventName, { link_url: href });
+        if (!eventName) return;
+
+        const linkLocation = link.closest("header")
+            ? "header"
+            : link.closest("footer")
+              ? "footer"
+              : link.closest(".article-body")
+                ? "guide"
+                : "content";
+        const parameters = {
+            link_url: href,
+            link_text: String(link.textContent || "").trim().slice(0, 100),
+            link_location: linkLocation,
+        };
+        if (socialPlatform) parameters.social_platform = socialPlatform;
+
+        if (window.PetiteMoodAnalytics?.track) {
+            window.PetiteMoodAnalytics.track(eventName, parameters);
+        } else {
+            window.gtag("event", eventName, parameters);
+        }
     });
 
     /* Condivisione nativa delle guide, senza profili social inventati. */
@@ -332,7 +357,12 @@ document.addEventListener("DOMContentLoaded", () => {
                     window.prompt(isEnglish ? "Copy this link" : "Copia questo link", shareUrl);
                     status.textContent = isEnglish ? "The link is ready to copy." : "Il link è pronto da copiare.";
                 }
-                if (typeof window.gtag === "function") {
+                if (window.PetiteMoodAnalytics?.track) {
+                    window.PetiteMoodAnalytics.track("guide_share", {
+                        share_method: method,
+                        guide_slug: window.PetiteMoodAnalytics.context.pageSlug,
+                    });
+                } else if (typeof window.gtag === "function") {
                     window.gtag("event", "guide_share", { share_method: method });
                 }
             } catch (error) {

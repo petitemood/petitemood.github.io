@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Petite Mood — nuove guide</title>
+    <link>https://petitemood.it/</link>
+    <description>Guide pratiche, novità e risorse per la community petite.</description>
+    <language>it-IT</language>
+    <atom:link href="https://petitemood.it/feed.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Gonne midi per ragazze basse: 7 outfit estate 2026</title>
+      <link>https://petitemood.it/gonne-midi-ragazze-basse.html</link>
+      <guid isPermaLink="true">https://petitemood.it/gonne-midi-ragazze-basse.html</guid>
+      <pubDate>Wed, 15 Jul 2026 08:00:00 +0200</pubDate>
+      <description><![CDATA[Lunghezza, punto vita, scarpe basse e sette outfit facili senza regole rigide.]]></description>
+    </item>
+    <item>
+      <title>Outfit estate 2026 per donne petite: 9 idee</title>
+      <link>https://petitemood.it/outfit-estate-donne-petite.html</link>
+      <guid isPermaLink="true">https://petitemood.it/outfit-estate-donne-petite.html</guid>
+      <pubDate>Wed, 15 Jul 2026 07:00:00 +0200</pubDate>
+      <description><![CDATA[Nove formule fresche con lino, shorts, abiti e pantaloni leggeri.]]></description>
+    </item>
+    <item>
+      <title>Scarpe per donne basse senza tacchi</title>
+      <link>https://petitemood.it/scarpe-donne-basse-senza-tacchi.html</link>
+      <guid isPermaLink="true">https://petitemood.it/scarpe-donne-basse-senza-tacchi.html</guid>
+      <pubDate>Mon, 13 Jul 2026 08:00:00 +0200</pubDate>
+      <description><![CDATA[Sneakers, ballerine, mocassini e stivaletti abbinati alle proporzioni petite.]]></description>
+    </item>
+    <item>
+      <title>Outfit matrimonio per donne basse</title>
+      <link>https://petitemood.it/outfit-matrimonio-donne-basse.html</link>
+      <guid isPermaLink="true">https://petitemood.it/outfit-matrimonio-donne-basse.html</guid>
+      <pubDate>Mon, 13 Jul 2026 07:00:00 +0200</pubDate>
+      <description><![CDATA[Abiti, completi, jumpsuit e scarpe per un look da invitata confortevole.]]></description>
+    </item>
+    <item>
+      <title>Come scegliere un blazer petite</title>
+      <link>https://petitemood.it/come-scegliere-blazer-petite.html</link>
+      <guid isPermaLink="true">https://petitemood.it/come-scegliere-blazer-petite.html</guid>
+      <pubDate>Mon, 13 Jul 2026 06:00:00 +0200</pubDate>
+      <description><![CDATA[La checklist pratica per spalle, maniche, bottoni e lunghezza.]]></description>
+    </item>
+  </channel>
+</rss>
