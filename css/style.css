@@ -1417,6 +1417,7 @@ cursor:pointer;
 .eyebrow{color:var(--primary);font-weight:800;letter-spacing:.08em;text-transform:uppercase}
 .content-section{padding:90px 0}.content-section.alt{background:var(--primary-light)}
 .guide-grid,.card-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
+.featured-guides-grid{grid-template-columns:repeat(2,1fr)}
 .guide-card,.info-card,.diary-card{background:#fff;border:1px solid rgba(231,56,124,.1);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;padding:30px}
 .guide-card img{width:100%;height:210px;object-fit:cover;border-radius:18px;margin-bottom:24px}
 .guide-icon{position:relative;display:grid;place-items:center;width:100%;height:210px;margin-bottom:24px;border-radius:18px;background:linear-gradient(145deg,#fff4f8,#ffe3ee);color:var(--primary);overflow:hidden}
