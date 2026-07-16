@@ -201,6 +201,34 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     };
 
+    const trackSiteVisit = async () => {
+        if (!databaseReady) return;
+
+        const storageKey = "petiteMoodVisitTracked";
+
+        try {
+            if (sessionStorage.getItem(storageKey) === "true") return;
+            sessionStorage.setItem(storageKey, "true");
+        } catch (_) {
+            /* Se lo storage non è disponibile, contiamo comunque la sessione. */
+        }
+
+        try {
+            const response = await supabaseRequest("/rest/v1/rpc/track_site_visit", {
+                method: "POST",
+                body: JSON.stringify({
+                    p_path: window.location.pathname || "/",
+                }),
+            });
+
+            if (!response.ok) {
+                console.warn("Visite Petite Mood non disponibili:", response.status);
+            }
+        } catch (error) {
+            console.warn("Visite Petite Mood non disponibili:", error);
+        }
+    };
+
     const newsletterForm = document.getElementById("newsletter-form");
     const newsletterStatus = document.getElementById("newsletter-status");
 
@@ -275,6 +303,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     loadPublicStats();
+    trackSiteVisit();
 
     /* Eventi GA4: attivi soltanto dopo consenso e configurazione. */
     document.addEventListener("click", (event) => {
