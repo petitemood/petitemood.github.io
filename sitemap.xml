@@ -41,5 +41,6 @@
 <url><loc>https://petitemood.it/en/petite-club.html</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
 <url><loc>https://petitemood.it/en/diary.html</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
 <url><loc>https://petitemood.it/en/faq.html</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+<url><loc>https://petitemood.it/en/questionnaire.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
 <url><loc>https://petitemood.it/en/privacy.html</loc><changefreq>yearly</changefreq><priority>0.3</priority></url>
 </urlset>

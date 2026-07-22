@@ -15,7 +15,29 @@ document.addEventListener("DOMContentLoaded", () => {
     const successPanel = document.getElementById("success-panel");
     const feedback = document.getElementById("feedback");
     const feedbackCount = document.getElementById("feedback-count");
-    const storageKey = "petiteMoodSurveyDraftV1";
+    const isEnglish = document.documentElement.lang.toLowerCase().startsWith("en");
+    const storageKey = isEnglish ? "petiteMoodSurveyDraftEnV1" : "petiteMoodSurveyDraftV1";
+    const copy = isEnglish ? {
+        step: "Step", of: "of",
+        group: "Select at least one answer for the highlighted question.",
+        field: "Check the highlighted field before continuing.",
+        email: "Enter your email to become a Petite Member or receive news.",
+        config: "The questionnaire is ready, but its database connection is not configured yet.",
+        sending: "Sending...",
+        success: "Thank you! Your answers will help us create clothes made for real petite proportions 💕",
+        error: "Something went wrong. Please try again shortly or contact us on Instagram.",
+        submit: "Submit your answers"
+    } : {
+        step: "Passaggio", of: "di",
+        group: "Seleziona almeno una risposta nella domanda evidenziata.",
+        field: "Controlla il campo evidenziato prima di continuare.",
+        email: "Inserisci l'email per diventare Petite Member o ricevere le novità.",
+        config: "Il questionario è pronto, ma il collegamento al database non è ancora stato configurato. Inserisci Project URL e Publishable key nel file js/config.js.",
+        sending: "Invio in corso...",
+        success: "Grazie! Le tue risposte ci aiutano a creare capi davvero pensati per ragazze petite 💕",
+        error: "Ops, qualcosa non ha funzionato. Riprova tra poco oppure scrivici su Instagram.",
+        submit: "Invia le tue risposte"
+    };
     let currentStep = 0;
     let isSubmitting = false;
     const openedFromPwa = Boolean(window.PetiteMoodPWA && window.PetiteMoodPWA.isStandalone());
@@ -79,7 +101,7 @@ document.addEventListener("DOMContentLoaded", () => {
         purchase_intent: Number(getValue("purchase_intent")),
         discovery_channels: checkedValues("discovery_channels"),
         feedback: [
-            getValue("shoe_size") ? `Numero scarpe EU: ${getValue("shoe_size")}` : "",
+            getValue("shoe_size") ? `${isEnglish ? "Shoe size" : "Numero scarpe EU"}: ${getValue("shoe_size")}` : "",
             getValue("feedback"),
         ].filter(Boolean).join("\n\n").slice(0, 1000) || null,
         first_name: getValue("first_name") || null,
@@ -171,7 +193,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const percent = Math.round(((currentStep + 1) / steps.length) * 100);
         progressBar.style.width = `${percent}%`;
         progressPercent.textContent = `${percent}%`;
-        stepLabel.textContent = `Passaggio ${currentStep + 1} di ${steps.length}`;
+        stepLabel.textContent = `${copy.step} ${currentStep + 1} ${copy.of} ${steps.length}`;
         previousButton.hidden = currentStep === 0;
         nextButton.hidden = isLastStep;
         nextButton.disabled = isLastStep;
@@ -199,14 +221,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (invalidGroup) {
             invalidGroup.classList.add("is-invalid");
-            showAlert("Seleziona almeno una risposta nella domanda evidenziata.");
+            showAlert(copy.group);
             invalidGroup.scrollIntoView({ behavior: "smooth", block: "center" });
             return false;
         }
 
         if (invalidField) {
             invalidField.classList.add("is-invalid");
-            showAlert("Controlla il campo evidenziato prima di continuare.");
+            showAlert(copy.field);
             invalidField.focus();
             return false;
         }
@@ -219,7 +241,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             if (wantsContact && emailField && !emailField.value.trim()) {
                 emailField.classList.add("is-invalid");
-                showAlert("Inserisci l'email per diventare Petite Member o ricevere le novità.");
+                showAlert(copy.email);
                 emailField.focus();
                 return false;
             }
@@ -263,7 +285,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (!isConfigured) {
             showAlert(
-                "Il questionario è pronto, ma il collegamento al database non è ancora stato configurato. Inserisci Project URL e Publishable key nel file js/config.js.",
+                copy.config,
                 "info"
             );
             return;
@@ -273,7 +295,7 @@ document.addEventListener("DOMContentLoaded", () => {
         previousButton.disabled = true;
         nextButton.disabled = true;
         submitButton.disabled = true;
-        submitButton.textContent = "Invio in corso...";
+        submitButton.textContent = copy.sending;
         hideAlert();
 
         try {
@@ -302,21 +324,21 @@ document.addEventListener("DOMContentLoaded", () => {
                 successPanel.hidden = false;
                 successPanel.focus();
             } else {
-                showAlert("Grazie! Le tue risposte ci aiutano a creare capi davvero pensati per ragazze petite 💕", "info");
+                showAlert(copy.success, "info");
             }
             window.setTimeout(() => {
-                window.location.href = "grazie.html";
+                window.location.href = isEnglish ? "index.html?questionnaire=thank-you" : "grazie.html";
             }, 2200);
         } catch (error) {
             console.error("Petite Mood survey:", error);
             showAlert(
-                "Ops, qualcosa non ha funzionato. Riprova tra poco oppure scrivici su Instagram."
+                copy.error
             );
             isSubmitting = false;
             previousButton.disabled = false;
             nextButton.disabled = false;
             submitButton.disabled = false;
-            submitButton.textContent = "Invia le tue risposte";
+            submitButton.textContent = copy.submit;
         }
     });
 
