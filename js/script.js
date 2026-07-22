@@ -231,6 +231,24 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const newsletterForm = document.getElementById("newsletter-form");
     const newsletterStatus = document.getElementById("newsletter-status");
+    const isEnglishPage = document.documentElement.lang.toLowerCase().startsWith("en");
+    const newsletterCopy = isEnglishPage
+        ? {
+            unavailable: "Subscriptions will be available shortly: we are completing the connection.",
+            loading: "Subscribing…",
+            success: "Welcome to the Petite Club! Your subscription is confirmed 💖",
+            error: "We couldn't complete your subscription. Please try again shortly.",
+            submit: "Join the Petite Club",
+            source: "website_newsletter_en",
+        }
+        : {
+            unavailable: "L'iscrizione sarà disponibile a breve: stiamo completando il collegamento.",
+            loading: "Iscrizione…",
+            success: "Benvenuta nel Petite Club! Iscrizione completata 💖",
+            error: "Non siamo riusciti a completare l'iscrizione. Riprova tra poco.",
+            submit: "Iscriviti",
+            source: "website_newsletter",
+        };
 
     if (newsletterForm && newsletterStatus) {
         newsletterForm.addEventListener("submit", async (event) => {
@@ -243,8 +261,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
             if (!databaseReady) {
-                newsletterStatus.textContent =
-                    "L'iscrizione sarà disponibile a breve: stiamo completando il collegamento.";
+                newsletterStatus.textContent = newsletterCopy.unavailable;
                 newsletterStatus.classList.add("is-error");
                 return;
             }
@@ -252,14 +269,14 @@ document.addEventListener("DOMContentLoaded", () => {
             const email = newsletterForm.elements.email.value.trim().toLowerCase();
             const submitButton = newsletterForm.querySelector('button[type="submit"]');
             submitButton.disabled = true;
-            submitButton.textContent = "Iscrizione…";
+            submitButton.textContent = newsletterCopy.loading;
 
             try {
                 const response = await supabaseRequest("/rest/v1/rpc/subscribe_newsletter", {
                     method: "POST",
                     body: JSON.stringify({
                         p_email: email,
-                        p_source: "website_newsletter",
+                        p_source: newsletterCopy.source,
                     }),
                 });
 
@@ -283,8 +300,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
 
                 newsletterForm.reset();
-                newsletterStatus.textContent =
-                    "Benvenuta nel Petite Club! Iscrizione completata 💖";
+                newsletterStatus.textContent = newsletterCopy.success;
                 newsletterStatus.classList.add("is-success");
                 if (typeof window.gtag === "function") {
                     window.gtag("event", "newsletter_signup");
@@ -292,12 +308,11 @@ document.addEventListener("DOMContentLoaded", () => {
                 loadPublicStats();
             } catch (error) {
                 console.error("Newsletter Petite Mood:", error);
-                newsletterStatus.textContent =
-                    "Non siamo riusciti a completare l'iscrizione. Riprova tra poco.";
+                newsletterStatus.textContent = newsletterCopy.error;
                 newsletterStatus.classList.add("is-error");
             } finally {
                 submitButton.disabled = false;
-                submitButton.textContent = "Iscriviti";
+                submitButton.textContent = newsletterCopy.submit;
             }
         });
     }
